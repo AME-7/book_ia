@@ -1,5 +1,4 @@
 import 'package:book_ia/core/constants/app_images.dart';
-import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/functions/validations.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
@@ -7,21 +6,20 @@ import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/custom_text_form_field.dart';
 import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
-import 'package:book_ia/features/auth/page/register/register_screen.dart';
-import 'package:book_ia/features/auth/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
 
   final fromKey = GlobalKey<FormState>();
   @override
@@ -40,13 +38,26 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 Text(
-                  'Welcome back! Glad to see you, Again!',
+                  'Hello! Register to get started',
                   style: AppTextStyle.headline,
                 ),
                 Gap(32),
                 CustomTextFormField(
+                  controller: nameController,
+                  hintText: 'Username',
+                  keybordType: TextInputType.name,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your name';
+                    } else if (!isEmailValid(value)) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
                   controller: emailController,
-                  hintText: 'Enter your emil',
+                  hintText: 'emil',
                   keybordType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -60,33 +71,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 Gap(15),
                 PasswordTextFormField(
                   controller: passwordController,
-                  hintText: 'Enter your password',
+                  hintText: 'password',
+                ),
+                PasswordTextFormField(
+                  controller: passwordController,
+                  hintText: 'Confarm password',
                 ),
 
-                Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Forgot password',
-                        style: AppTextStyle.captoin1.copyWith(
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 Gap(30),
                 MainButton(
-                  text: 'login',
+                  text: 'Register',
                   onPressed: () {
                     if (fromKey.currentState!.validate()) {}
                   },
                 ),
-                Gap(35),
-                SocialLoginButton(),
               ],
             ),
           ),
@@ -100,11 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Text('Don\'t have an account ?', style: AppTextStyle.captoin1),
             Gap(10),
             GestureDetector(
-              onTap: () {
-                pushTo(context, RegisterScreen());
-              },
+              onTap: () {},
               child: Text(
-                'Register',
+                'Logen Naw',
                 style: AppTextStyle.captoin1.copyWith(
                   color: AppColors.primaryColor,
                 ),
