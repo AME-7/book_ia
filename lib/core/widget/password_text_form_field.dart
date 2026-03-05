@@ -7,6 +7,7 @@ class PasswordTextFormField extends StatefulWidget {
     super.key,
     this.hintText,
     required this.controller,
+    required validator,
   });
   final String? hintText;
   final TextEditingController controller;

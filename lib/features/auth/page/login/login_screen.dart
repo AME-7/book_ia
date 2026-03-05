@@ -1,8 +1,8 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
-import 'package:book_ia/core/functions/validations.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
+import 'package:book_ia/core/utils/validators.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/custom_text_form_field.dart';
 import 'package:book_ia/core/widget/main_button.dart';
@@ -23,7 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final fromKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,38 +33,39 @@ class _LoginScreenState extends State<LoginScreen> {
         automaticallyImplyLeading: false,
         title: CustomSvgPicture(path: AppImages.backSvg),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(22.0),
+
           child: Form(
-            key: fromKey,
+            key: formKey,
             child: Column(
               children: [
                 Text(
-                  'Welcome back! Glad to see you, Again!',
+                  'Welcome back! Glad to see you again!',
                   style: AppTextStyle.headline,
                 ),
-                Gap(32),
+
+                const Gap(32),
+
                 CustomTextFormField(
                   controller: emailController,
-                  hintText: 'Enter your emil',
+                  hintText: 'Enter your email',
                   keybordType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!isEmailValid(value)) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
+                  validator: AppValidator.email,
                 ),
-                Gap(15),
+
+                const Gap(15),
+
                 PasswordTextFormField(
                   controller: passwordController,
                   hintText: 'Enter your password',
+                  validator: null,
                 ),
 
-                Gap(15),
+                const Gap(15),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -78,30 +80,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                Gap(30),
+
+                const Gap(30),
+
                 MainButton(
-                  text: 'login',
+                  text: 'Login',
                   onPressed: () {
-                    if (fromKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {}
                   },
                 ),
-                Gap(35),
-                SocialLoginButton(),
+
+                const Gap(35),
+
+                const SocialLoginButton(),
               ],
             ),
           ),
         ),
       ),
+
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Don\'t have an account ?', style: AppTextStyle.captoin1),
-            Gap(10),
+            Text('Don\'t have an account?', style: AppTextStyle.captoin1),
+
+            const Gap(10),
+
             GestureDetector(
               onTap: () {
-                pushTo(context, RegisterScreen());
+                pushTo(context, const RegisterScreen());
               },
               child: Text(
                 'Register',

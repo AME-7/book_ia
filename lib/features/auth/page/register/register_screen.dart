@@ -1,7 +1,7 @@
 import 'package:book_ia/core/constants/app_images.dart';
-import 'package:book_ia/core/functions/validations.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
+import 'package:book_ia/core/utils/validators.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/custom_text_form_field.dart';
 import 'package:book_ia/core/widget/main_button.dart';
@@ -13,15 +13,17 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final nameController = TextEditingController();
 
-  final fromKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,55 +36,57 @@ class _LoginScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.all(22.0),
           child: Form(
-            key: fromKey,
+            key: formKey,
             child: Column(
               children: [
                 Text(
                   'Hello! Register to get started',
                   style: AppTextStyle.headline,
                 ),
-                Gap(32),
+
+                const Gap(32),
+
                 CustomTextFormField(
                   controller: nameController,
                   hintText: 'Username',
                   keybordType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your name';
-                    } else if (!isEmailValid(value)) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextFormField(
-                  controller: emailController,
-                  hintText: 'emil',
-                  keybordType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!isEmailValid(value)) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                ),
-                Gap(15),
-                PasswordTextFormField(
-                  controller: passwordController,
-                  hintText: 'password',
-                ),
-                PasswordTextFormField(
-                  controller: passwordController,
-                  hintText: 'Confarm password',
+                  validator: AppValidator.name,
                 ),
 
-                Gap(30),
+                const Gap(15),
+
+                CustomTextFormField(
+                  controller: emailController,
+                  hintText: 'Email',
+                  keybordType: TextInputType.emailAddress,
+                  validator: AppValidator.email,
+                ),
+
+                const Gap(15),
+
+                PasswordTextFormField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  validator: null,
+                ),
+
+                const Gap(15),
+
+                PasswordTextFormField(
+                  controller: confirmPasswordController,
+                  hintText: 'Confirm password',
+                  validator: (value) => AppValidator.confirmPassword(
+                    value,
+                    passwordController.text,
+                  ),
+                ),
+
+                const Gap(30),
+
                 MainButton(
                   text: 'Register',
                   onPressed: () {
-                    if (fromKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {}
                   },
                 ),
               ],
@@ -90,17 +94,18 @@ class _LoginScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Don\'t have an account ?', style: AppTextStyle.captoin1),
-            Gap(10),
+            Text('Already have an account?', style: AppTextStyle.captoin1),
+            const Gap(10),
             GestureDetector(
               onTap: () {},
               child: Text(
-                'Logen Naw',
+                'Login Now',
                 style: AppTextStyle.captoin1.copyWith(
                   color: AppColors.primaryColor,
                 ),
