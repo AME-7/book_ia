@@ -13,4 +13,5 @@ abstract class AppImages {
   static const String searchSvg = 'assets/icons/search-normal.svg';
   static const String shepeSvg = 'assets/icons/Shape.svg';
   static const String backSvg = 'assets/icons/backSvg.svg';
+  static const String lodingJson = 'assets/images/Loding.json';
 }

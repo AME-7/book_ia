@@ -4,7 +4,8 @@ import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/main_button.dart';
-import 'package:book_ia/features/auth/page/login/login_screen.dart';
+import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
+import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -45,7 +46,9 @@ class WelcomeScreen extends StatelessWidget {
                 Gap(15),
                 MainButton(
                   text: 'Register',
-                  onPressed: () {},
+                  onPressed: () {
+                    pushTo(context, RegisterScreen());
+                  },
                   bgColor: AppColors.backgroundColor,
                   textColor: AppColors.blackColor,
                   borderColor: AppColors.blackColor,
