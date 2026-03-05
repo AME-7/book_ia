@@ -1,5 +1,6 @@
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
+import 'package:book_ia/core/utils/validators.dart';
 import 'package:flutter/material.dart';
 
 class PasswordTextFormField extends StatefulWidget {
@@ -41,14 +42,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
               : const Icon(Icons.remove_red_eye),
         ),
       ),
-      validator: (input) {
-        if (input!.isEmpty) {
-          return 'Please enter some text';
-        } else if (input.length < 6) {
-          return 'password must be at least 6 characters';
-        }
-        return null;
-      },
+      validator: AppValidator.password,
     );
   }
 }

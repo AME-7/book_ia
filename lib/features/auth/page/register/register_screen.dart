@@ -1,4 +1,5 @@
 import 'package:book_ia/core/constants/app_images.dart';
+import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/utils/validators.dart';
@@ -6,6 +7,7 @@ import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/custom_text_form_field.dart';
 import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
+import 'package:book_ia/features/auth/page/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -67,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 PasswordTextFormField(
                   controller: passwordController,
                   hintText: 'Password',
-                  validator: null,
+                  validator: AppValidator.password,
                 ),
 
                 const Gap(15),
@@ -103,7 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Text('Already have an account?', style: AppTextStyle.captoin1),
             const Gap(10),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                pushTo(context, LoginScreen());
+              },
               child: Text(
                 'Login Now',
                 style: AppTextStyle.captoin1.copyWith(
