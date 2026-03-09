@@ -44,11 +44,11 @@ class AuthRepo {
     }
   }
 
-  static Future<AuthResponnse?> forgot(RegisterParames params) async {
+  static Future<AuthResponnse?> forgot(String email) async {
     try {
       var response = await DioProvider.post(
         endpoint: Apis.forgotPassword,
-        data: params.toJson(),
+        data: {email: "email"},
       );
       if (response.statusCode == 200) {
         response.data;

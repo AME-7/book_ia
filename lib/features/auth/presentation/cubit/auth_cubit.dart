@@ -51,13 +51,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> forgot() async {
     emit(AuthLodingState());
-    var response = await AuthRepo.forgot(
-      RegisterParames(email: emailController.text),
-    );
+    var response = await AuthRepo.forgot(emailController.text);
     if (response != null) {
       emit(AuthSuccessState());
     } else {
-      emit(AuthErrorState(message: "Failed to Login"));
+      emit(AuthErrorState(message: "Failed to send code"));
     }
   }
 
