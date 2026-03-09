@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/styles/colors.dart';
@@ -69,12 +67,9 @@ class ForgotPasswordScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
-          pop(context);
           pushTo(context, OtpScreen());
-          log('success');
         } else if (state is AuthErrorState) {
           pop(context);
-          pushTo(context, OtpScreen());
           shewErrorDialog(context, state.message);
         } else if (state is AuthLodingState) {
           showLoadingDialog(context);

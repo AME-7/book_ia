@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/styles/colors.dart';
@@ -16,6 +14,7 @@ import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot
 import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
+import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -72,8 +71,7 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
-          pop(context);
-          log('success');
+          pushToBase(context, MainAppScreen());
         } else if (state is AuthErrorState) {
           pop(context);
           shewErrorDialog(context, state.message);
