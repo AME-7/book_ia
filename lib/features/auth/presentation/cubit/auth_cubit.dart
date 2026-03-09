@@ -62,7 +62,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyOtp() async {
     emit(AuthLodingState());
 
-    var response = await AuthRepo.verifyOtp(otp);
+    var response = await AuthRepo.verifyOtp(
+      email: emailController.text,
+      otp: otp,
+    );
 
     if (response != null) {
       emit(AuthSuccessState());
