@@ -47,7 +47,7 @@ class AuthRepo {
   static Future<AuthResponnse?> forgot(RegisterParames params) async {
     try {
       var response = await DioProvider.post(
-        endpoint: Apis.login,
+        endpoint: Apis.forgotPassword,
         data: params.toJson(),
       );
       if (response.statusCode == 200) {
@@ -58,6 +58,25 @@ class AuthRepo {
         return null;
       }
     } on Exception catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  static Future<AuthResponnse?> verifyOtp(String otp) async {
+    try {
+      var response = await DioProvider.post(
+        endpoint: Apis.checkForgetPassword,
+        data: {"verify_code": otp},
+      );
+
+      if (response.statusCode == 200) {
+        var data = AuthResponnse.fromJson(response.data);
+        return data;
+      } else {
+        return null;
+      }
+    } catch (e) {
       log(e.toString());
       return null;
     }

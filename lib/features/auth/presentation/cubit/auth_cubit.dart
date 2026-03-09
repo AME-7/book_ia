@@ -12,6 +12,10 @@ class AuthCubit extends Cubit<AuthState> {
   final nameController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+  String otp = '';
+  void setOtp(String value) {
+    otp = value;
+  }
 
   Future<void> login() async {
     emit(AuthLodingState());
@@ -35,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
-        passwordConfirmation: passwordController.text,
+        passwordConfirmation: confirmPasswordController.text,
       ),
     );
     if (response != null) {
@@ -54,6 +58,18 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSuccessState());
     } else {
       emit(AuthErrorState(message: "Failed to Login"));
+    }
+  }
+
+  Future<void> verifyOtp() async {
+    emit(AuthLodingState());
+
+    var response = await AuthRepo.verifyOtp(otp);
+
+    if (response != null) {
+      emit(AuthSuccessState());
+    } else {
+      emit(AuthErrorState(message: "Invalid Code"));
     }
   }
 }

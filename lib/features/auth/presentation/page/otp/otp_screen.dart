@@ -1,113 +1,141 @@
+import 'dart:developer';
+
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
+import 'package:book_ia/core/widget/dialogs.dart';
 import 'package:book_ia/core/widget/main_button.dart';
-import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot_password_screen.dart';
-import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
+import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:book_ia/features/auth/presentation/page/new_password/new_password_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpScreen extends StatefulWidget {
+class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
-  State<OtpScreen> createState() => _OtpScreen();
-}
-
-class _OtpScreen extends State<OtpScreen> {
-  final emailController = TextEditingController();
-
-  final formKey = GlobalKey<FormState>();
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        title: GestureDetector(
-          onTap: () {
-            popTo(context, ForgotPasswordScreen());
-          },
-          child: CustomSvgPicture(path: AppImages.backSvg),
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          title: GestureDetector(
+            onTap: () {
+              pop(context);
+            },
+            child: CustomSvgPicture(path: AppImages.backSvg),
+          ),
         ),
-      ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(22.0),
+        body: _otpBody(),
 
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('OTP Verification', style: AppTextStyle.headline),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Didn\'t receive code?', style: AppTextStyle.captoin1),
 
-                Gap(15),
-                Text(
-                  'Enter the verification code we just sent on your email address.',
-                  style: AppTextStyle.body.copyWith(color: AppColors.greyColor),
-                ),
+              const Gap(10),
 
-                const Gap(32),
-                Align(
-                  alignment: Alignment.center,
-                  child: Pinput(
-                    length: 5,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    onChanged: (value) {},
-                    onCompleted: (pin) {
-                      debugPrint('OTP Completed $pin');
-                    },
+              GestureDetector(
+                onTap: () {
+                  context.read()<AuthCubit>().resendCode;
+                },
+                child: Text(
+                  'Resend',
+                  style: AppTextStyle.captoin1.copyWith(
+                    color: AppColors.primaryColor,
                   ),
                 ),
-
-                const Gap(30),
-
-                MainButton(
-                  text: 'Verify',
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      pushTo(context, NewPasswordScreen());
-                    }
-                  },
-                ),
-
-                const Gap(35),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
 
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Don\'t received code?', style: AppTextStyle.captoin1),
+  Widget _otpBody() {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLodingState) {
+          showLoadingDialog(context);
+        } else if (state is AuthSuccessState) {
+          Navigator.of(context).maybePop();
+          pushTo(context, const NewPasswordScreen());
+          log('success');
+        } else if (state is AuthErrorState) {
+          Navigator.of(context).maybePop();
+          shewErrorDialog(context, state.message);
+        }
+      },
+      builder: (context, state) {
+        var cubit = context.read<AuthCubit>();
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(22.0),
+            child: Form(
+              key: cubit.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('OTP Verification', style: AppTextStyle.headline),
 
-            const Gap(10),
+                  Gap(15),
+                  Text(
+                    'Enter the verification code we just sent on your email address.',
+                    style: AppTextStyle.body.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                  ),
 
-            GestureDetector(
-              onTap: () {
-                pushTo(context, const LoginScreen());
-              },
-              child: Text(
-                'Resend',
-                style: AppTextStyle.captoin1.copyWith(
-                  color: AppColors.primaryColor,
-                ),
+                  const Gap(32),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Pinput(
+                      length: 6,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      onChanged: (value) {
+                        cubit.otp = value;
+                      },
+                      onCompleted: (pin) {
+                        cubit.otp = pin;
+                        debugPrint('OTP Completed $pin');
+                      },
+                    ),
+                  ),
+
+                  const Gap(30),
+
+                  MainButton(
+                    text: 'Verify',
+                    onPressed: () {
+                      if (cubit.otp.length == 6) {
+                        cubit.verifyOtp();
+                        pushTo(context, const NewPasswordScreen());
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Enter valid OTP")),
+                        );
+                      }
+                    },
+                  ),
+
+                  const Gap(35),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

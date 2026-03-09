@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: GestureDetector(
             onTap: () {
-              popTo(context, WelcomeScreen());
+              pushTo(context, WelcomeScreen());
             },
             child: CustomSvgPicture(path: AppImages.backSvg),
           ),
@@ -72,10 +72,10 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
-          popTo(context, LoginScreen());
+          pop(context);
           log('success');
         } else if (state is AuthErrorState) {
-          popTo(context, LoginScreen());
+          pop(context);
           shewErrorDialog(context, state.message);
         } else if (state is AuthLodingState) {
           showLoadingDialog(context);
