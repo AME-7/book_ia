@@ -1,7 +1,7 @@
 import 'dart:developer';
-
 import 'package:book_ia/core/services/dio/apis.dart';
-import 'package:book_ia/core/services/dio_provider.dart';
+import 'package:book_ia/core/services/dio/dio_provider.dart';
+import 'package:book_ia/core/services/local/shared_pref.dart';
 import 'package:book_ia/features/auth/data/models/auth_responnse/register_responnse.dart';
 import 'package:book_ia/features/auth/data/models/register_parames.dart';
 
@@ -15,6 +15,8 @@ class AuthRepo {
       if (response.statusCode == 201) {
         response.data;
         var data = AuthResponnse.fromJson(response.data);
+        SharedPref.setToken(data.data?.token ?? '');
+        SharedPref.setUser(data.data?.user);
         return data;
       } else {
         return null;
@@ -34,6 +36,8 @@ class AuthRepo {
       if (response.statusCode == 200) {
         response.data;
         var data = AuthResponnse.fromJson(response.data);
+        SharedPref.setToken(data.data?.token ?? '');
+        SharedPref.setUser(data.data?.user);
         return data;
       } else {
         return null;
