@@ -3,6 +3,8 @@ abstract class Apis {
   // auth
   static const login = '/login';
   static const register = '/register';
-  static const forgotPassword = '/forgot-password';
+  static const forgotPassword = '/forget-password';
   static const checkForgetPassword = '/check-forget-password';
+  static const sliders = '/sliders';
+  static const productsBestseller = '/products-bestseller';
 }

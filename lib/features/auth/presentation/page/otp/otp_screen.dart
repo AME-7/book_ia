@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
@@ -9,7 +10,6 @@ import 'package:book_ia/core/widget/dialogs.dart';
 import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
-import 'package:book_ia/features/auth/presentation/page/new_password/new_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -70,7 +70,7 @@ class OtpScreen extends StatelessWidget {
           showLoadingDialog(context);
         } else if (state is AuthSuccessState) {
           Navigator.of(context).maybePop();
-          pushTo(context, const NewPasswordScreen());
+          pushTo(context, Routes.nawPassword);
           log('success');
         } else if (state is AuthErrorState) {
           Navigator.of(context).maybePop();
@@ -120,7 +120,7 @@ class OtpScreen extends StatelessWidget {
                     onPressed: () {
                       if (cubit.otp.length == 6) {
                         cubit.verifyOtp();
-                        pushTo(context, const NewPasswordScreen());
+                        pushTo(context, Routes.nawPassword);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Enter valid OTP")),

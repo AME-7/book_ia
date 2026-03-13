@@ -1,5 +1,6 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/utils/validators.dart';
@@ -10,11 +11,7 @@ import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
-import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot_password_screen.dart';
-import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/auth/presentation/widgets/social_login_button.dart';
-import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
-import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -32,7 +29,7 @@ class LoginScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: GestureDetector(
             onTap: () {
-              pushTo(context, WelcomeScreen());
+              pushTo(context, Routes.welcome);
             },
             child: CustomSvgPicture(path: AppImages.backSvg),
           ),
@@ -51,7 +48,7 @@ class LoginScreen extends StatelessWidget {
 
               GestureDetector(
                 onTap: () {
-                  pushTo(context, const RegisterScreen());
+                  pushTo(context, Routes.register);
                 },
                 child: Text(
                   'Register',
@@ -71,7 +68,7 @@ class LoginScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
-          pushToBase(context, MainAppScreen());
+          pushToBase(context, Routes.main);
         } else if (state is AuthErrorState) {
           pop(context);
           shewErrorDialog(context, state.message);
@@ -118,7 +115,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          pushTo(context, ForgotPasswordScreen());
+                          pushTo(context, Routes.forgot);
                         },
                         child: Text(
                           'Forgot password',

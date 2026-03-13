@@ -1,10 +1,9 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/services/local/shared_pref.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
-import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
-import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -22,9 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
     String? token = SharedPref.getToken();
     Future.delayed(const Duration(seconds: 3), () {
       if (token != null && token.isNotEmpty) {
-        pushReplacment(context, const MainAppScreen());
+        pushReplacment(context, Routes.main);
       } else {
-        pushReplacment(context, WelcomeScreen());
+        pushReplacment(context, Routes.welcome);
       }
     });
   }

@@ -1,5 +1,6 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/utils/validators.dart';
@@ -10,8 +11,6 @@ import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
-import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
-import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -45,7 +44,7 @@ class RegisterScreen extends StatelessWidget {
               const Gap(10),
               GestureDetector(
                 onTap: () {
-                  pushTo(context, LoginScreen());
+                  pushTo(context, Routes.login);
                 },
                 child: Text(
                   'Login Now',
@@ -65,7 +64,7 @@ class RegisterScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
-          pushToBase(context, MainAppScreen());
+          pushToBase(context, Routes.main);
         } else if (state is AuthErrorState) {
           pop(context);
           shewErrorDialog(context, state.message);

@@ -1,11 +1,10 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/main_button.dart';
-import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
-import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -39,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
                 MainButton(
                   text: 'login',
                   onPressed: () {
-                    pushTo(context, LoginScreen());
+                    pushTo(context, Routes.login);
                   },
                   bgColor: AppColors.primaryColor,
                 ),
@@ -47,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                 MainButton(
                   text: 'Register',
                   onPressed: () {
-                    pushTo(context, RegisterScreen());
+                    pushTo(context, Routes.register);
                   },
                   bgColor: AppColors.backgroundColor,
                   textColor: AppColors.blackColor,

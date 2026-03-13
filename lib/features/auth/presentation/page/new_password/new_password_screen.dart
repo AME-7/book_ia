@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
+import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/utils/validators.dart';
@@ -11,7 +12,6 @@ import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
-import 'package:book_ia/features/auth/presentation/page/password%20changed/password_changed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -94,7 +94,7 @@ class NewPasswordScreen extends StatelessWidget {
                     text: 'Reset Password',
                     onPressed: () {
                       if (cubit.formKey.currentState!.validate()) {
-                        pushTo(context, PasswordChangedScreen());
+                        pushTo(context, Routes.passwordChaged);
                       }
                     },
                   ),

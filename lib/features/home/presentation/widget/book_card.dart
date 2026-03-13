@@ -1,12 +1,13 @@
-import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/main_button.dart';
+import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({super.key});
+  const BookCard({super.key, required this.product});
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -17,30 +18,38 @@ class BookCard extends StatelessWidget {
         color: AppColors.secondaryColor,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(10),
-              child: Image.asset(
-                AppImages.bg,
+              child: Image.network(
+                product.image ?? '',
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Gap(10),
-          Text('The Psychology of money', style: AppTextStyle.body),
+          Text(product.name ?? '', maxLines: 2, style: AppTextStyle.body),
           Gap(10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('\$25', style: AppTextStyle.body),
+              SizedBox(
+                height: 45,
+                child: Text(
+                  '\$${product.priceAfterDiscount}',
+                  style: AppTextStyle.body,
+                ),
+              ),
               SizedBox(
                 height: 30,
                 child: MainButton(
                   minWigth: 70,
                   minHeight: 30,
-                  text: 'bay',
+
+                  text: 'Bay',
                   onPressed: () {},
                   bgColor: AppColors.blackColor,
                 ),
