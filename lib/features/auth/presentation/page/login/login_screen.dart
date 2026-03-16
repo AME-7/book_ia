@@ -28,9 +28,8 @@ class LoginScreen extends StatelessWidget {
           centerTitle: false,
           automaticallyImplyLeading: false,
           title: GestureDetector(
-            onTap: () {
-              pushTo(context, Routes.welcome);
-            },
+            onTap: () => pop(context),
+
             child: CustomSvgPicture(path: AppImages.backSvg),
           ),
         ),

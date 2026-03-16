@@ -2,6 +2,7 @@ import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/features/home/presentation/page/home_screen.dart';
+import 'package:book_ia/features/wishlist/presentation/page/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
     HomeScreen(),
-    Center(child: Text('WishList')),
+    WishlistScreen(),
     Center(child: Text('Cart')),
     Center(child: Text('profile')),
   ];
