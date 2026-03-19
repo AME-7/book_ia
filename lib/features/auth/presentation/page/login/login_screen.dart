@@ -21,131 +21,126 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: GestureDetector(
-            onTap: () => pop(context),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: GestureDetector(
+          onTap: () => pop(context),
 
-            child: CustomSvgPicture(path: AppImages.backSvg),
-          ),
+          child: CustomSvgPicture(path: AppImages.backSvg),
         ),
+      ),
 
-        body: _loginBody(),
+      body: _loginBody(context),
 
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Don\'t have an account?', style: AppTextStyle.captoin1),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Don\'t have an account?', style: AppTextStyle.captoin1),
 
-              const Gap(10),
+            const Gap(10),
 
-              GestureDetector(
-                onTap: () {
-                  pushTo(context, Routes.register);
-                },
-                child: Text(
-                  'Register',
-                  style: AppTextStyle.captoin1.copyWith(
-                    color: AppColors.primaryColor,
-                  ),
+            GestureDetector(
+              onTap: () {
+                pushTo(context, Routes.register);
+              },
+              child: Text(
+                'Register',
+                style: AppTextStyle.captoin1.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _loginBody() {
-    return BlocConsumer<AuthCubit, AuthState>(
+  Widget _loginBody(BuildContext context) {
+    var cubit = context.read<AuthCubit>();
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
           pushToBase(context, Routes.main);
         } else if (state is AuthErrorState) {
           pop(context);
-          shewErrorDialog(context, state.message);
+          showMyDialog(context, state.message);
         } else if (state is AuthLodingState) {
           showLoadingDialog(context);
         }
       },
-      builder: (context, state) {
-        var cubit = context.read<AuthCubit>();
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(22.0),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(22.0),
 
-            child: Form(
-              key: cubit.formKey,
-              child: Column(
-                children: [
-                  Text(
-                    'Welcome back! Glad to see you again!',
-                    style: AppTextStyle.headline,
-                  ),
+          child: Form(
+            key: cubit.formKey,
+            child: Column(
+              children: [
+                Text(
+                  'Welcome back! Glad to see you again!',
+                  style: AppTextStyle.headline,
+                ),
 
-                  const Gap(32),
+                const Gap(32),
 
-                  CustomTextFormField(
-                    controller: cubit.emailController,
-                    hintText: 'Enter your email',
-                    keybordType: TextInputType.emailAddress,
-                    validator: AppValidator.email,
-                  ),
+                CustomTextFormField(
+                  controller: cubit.emailController,
+                  hintText: 'Enter your email',
+                  keybordType: TextInputType.emailAddress,
+                  validator: AppValidator.email,
+                ),
 
-                  const Gap(15),
+                const Gap(15),
 
-                  PasswordTextFormField(
-                    controller: cubit.passwordController,
-                    hintText: 'Enter your password',
-                    validator: null,
-                  ),
+                PasswordTextFormField(
+                  controller: cubit.passwordController,
+                  hintText: 'Enter your password',
+                  validator: null,
+                ),
 
-                  const Gap(15),
+                const Gap(15),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          pushTo(context, Routes.forgot);
-                        },
-                        child: Text(
-                          'Forgot password',
-                          style: AppTextStyle.captoin1.copyWith(
-                            color: AppColors.greyColor,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        pushTo(context, Routes.forgot);
+                      },
+                      child: Text(
+                        'Forgot password',
+                        style: AppTextStyle.captoin1.copyWith(
+                          color: AppColors.greyColor,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
 
-                  const Gap(30),
+                const Gap(30),
 
-                  MainButton(
-                    text: 'Login',
-                    onPressed: () {
-                      if (cubit.formKey.currentState!.validate()) {
-                        cubit.login();
-                      }
-                    },
-                  ),
+                MainButton(
+                  text: 'Login',
+                  onPressed: () {
+                    if (cubit.formKey.currentState!.validate()) {
+                      cubit.login();
+                    }
+                  },
+                ),
 
-                  const Gap(35),
+                const Gap(35),
 
-                  const SocialLoginButton(),
-                ],
-              ),
+                const SocialLoginButton(),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

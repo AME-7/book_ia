@@ -30,29 +30,24 @@ class BookCardShimmer extends StatelessWidget {
               ),
             ),
             const Gap(10),
-            // Title shimmer
-            Container(height: 16, color: AppColors.accentColor),
+            Container(height: 16, color: Colors.grey),
             const Gap(5),
-            // Subtitle shimmer
-            Container(height: 16, width: 150, color: AppColors.accentColor),
+            Container(height: 16, width: 150, color: Colors.grey),
             const Gap(10),
-            // Price and button row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Price placeholder
                 SizedBox(
                   height: 45,
-                  child: Container(width: 80, color: AppColors.accentColor),
+                  child: Container(width: 80, color: Colors.grey),
                 ),
-                // Button placeholder
                 SizedBox(
                   height: 30,
                   child: Container(
                     width: 70,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: AppColors.accentColor,
+                      color: Colors.grey[300],
                     ),
                   ),
                 ),

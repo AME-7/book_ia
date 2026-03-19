@@ -8,14 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class BookCard extends StatelessWidget {
-  const BookCard({super.key, required this.product});
+  const BookCard({
+    super.key,
+    required this.product,
+    this.onRemoveFromWishlist,
+    this.onRefresh,
+  });
   final Product product;
+  final Function()? onRemoveFromWishlist;
+  final Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        pushTo(context, Routes.detalis, extra: product);
+        pushTo(context, Routes.detalis, extra: product).then((value) {
+          onRefresh?.call();
+        });
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -48,21 +57,29 @@ class BookCard extends StatelessWidget {
                 SizedBox(
                   height: 45,
                   child: Text(
-                    '\$${product.priceAfterDiscount}',
+                    '\$${product.priceAfterDiscount ?? product.price}',
                     style: AppTextStyle.body,
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                  child: MainButton(
-                    minWigth: 70,
-                    minHeight: 30,
-
-                    text: 'Bay',
-                    onPressed: () {},
-                    bgColor: AppColors.blackColor,
-                  ),
-                ),
+                onRemoveFromWishlist != null
+                    ? IconButton(
+                        onPressed: onRemoveFromWishlist,
+                        style: IconButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size(30, 30),
+                        ),
+                        icon: Icon(Icons.delete, color: AppColors.errorColor),
+                      )
+                    : SizedBox(
+                        height: 30,
+                        child: MainButton(
+                          minWigth: 70,
+                          minHeight: 30,
+                          text: 'Bay',
+                          onPressed: () {},
+                          bgColor: AppColors.blackColor,
+                        ),
+                      ),
               ],
             ),
           ],

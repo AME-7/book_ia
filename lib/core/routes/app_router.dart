@@ -1,4 +1,5 @@
 import 'package:book_ia/core/routes/routes.dart';
+import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot_password_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/new_password/new_password_screen.dart';
@@ -10,6 +11,7 @@ import 'package:book_ia/features/home/data/models/best_seller_book_response/prod
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
 import 'package:book_ia/features/main/main_app_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -25,11 +27,17 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.login,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: const LoginScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.register,
-        builder: (context, state) => const RegisterScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: const RegisterScreen(),
+        ),
       ),
       GoRoute(path: Routes.otp, builder: (context, state) => const OtpScreen()),
       GoRoute(
@@ -57,5 +65,3 @@ class AppRouter {
     ],
   );
 }
-
-class Routers {}

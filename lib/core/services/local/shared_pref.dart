@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'dart:core';
 
 import 'package:book_ia/features/auth/data/models/auth_responnse/user.dart';
+import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharedPref {
   static late SharedPreferences pref;
   static const String ktoken = 'token';
   static const String kUser = 'user';
+  static const String kWishlist = 'wishlistIds';
 
   static Future<void> init() async {
     pref = await SharedPreferences.getInstance();
@@ -41,6 +42,21 @@ abstract class SharedPref {
     return jsonToObject;
   }
 
+  static void cacheWishlistids(List<Product> items) {
+    var ids = items.map((item) => item.id.toString()).toList();
+
+    cechData(kWishlist, ids);
+  }
+
+  static List<int> getWishlistIds() {
+    var ids = getData(kWishlist);
+    if (ids is List<String>) {
+      return ids.map((id) => int.tryParse(id) ?? 0).toList();
+    } else {
+      return [];
+    }
+  }
+
   static Future<void> cechData(String key, dynamic value) async {
     if (value is String) {
       await pref.setString(key, value);
@@ -55,7 +71,7 @@ abstract class SharedPref {
     }
   }
 
-  static Object getString(String kay) {
+  static Object getData(String kay) {
     return pref.get(kay) ?? '';
   }
 

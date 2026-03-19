@@ -1,11 +1,10 @@
-import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_back_button.dart';
 import 'package:book_ia/core/widget/main_button.dart';
+import 'package:book_ia/features/detalis/presentation/widgets/wishlist_icon.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class DetalisScreen extends StatelessWidget {
@@ -18,12 +17,7 @@ class DetalisScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: CustomBackButton(),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(AppImages.heartSvg),
-          ),
-        ],
+        actions: [WishlistActionWidget(id: model.id ?? 0)],
       ),
 
       body: Padding(

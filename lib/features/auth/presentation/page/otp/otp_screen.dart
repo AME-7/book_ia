@@ -74,7 +74,7 @@ class OtpScreen extends StatelessWidget {
           log('success');
         } else if (state is AuthErrorState) {
           Navigator.of(context).maybePop();
-          shewErrorDialog(context, state.message);
+          showMyDialog(context, state.message);
         }
       },
       builder: (context, state) {

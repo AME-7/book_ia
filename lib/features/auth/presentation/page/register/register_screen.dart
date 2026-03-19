@@ -20,127 +20,122 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: GestureDetector(
-            onTap: () {
-              pop(context);
-            },
-            child: CustomSvgPicture(path: AppImages.backSvg),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: GestureDetector(
+          onTap: () {
+            pop(context);
+          },
+          child: CustomSvgPicture(path: AppImages.backSvg),
         ),
-        body: _registerBody(),
+      ),
+      body: _registerBody(context),
 
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Already have an account?', style: AppTextStyle.captoin1),
-              const Gap(10),
-              GestureDetector(
-                onTap: () {
-                  pushTo(context, Routes.login);
-                },
-                child: Text(
-                  'Login Now',
-                  style: AppTextStyle.captoin1.copyWith(
-                    color: AppColors.primaryColor,
-                  ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Already have an account?', style: AppTextStyle.captoin1),
+            const Gap(10),
+            GestureDetector(
+              onTap: () {
+                pushTo(context, Routes.login);
+              },
+              child: Text(
+                'Login Now',
+                style: AppTextStyle.captoin1.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _registerBody() {
-    return BlocConsumer<AuthCubit, AuthState>(
+  Widget _registerBody(BuildContext context) {
+    var cubit = context.read<AuthCubit>();
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
           pushToBase(context, Routes.main);
         } else if (state is AuthErrorState) {
           pop(context);
-          shewErrorDialog(context, state.message);
+          showMyDialog(context, state.message);
         } else if (state is AuthLodingState) {
           showLoadingDialog(context);
         }
       },
-      builder: (context, state) {
-        var cubit = context.read<AuthCubit>();
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(22.0),
-            child: Form(
-              key: cubit.formKey,
-              child: Column(
-                children: [
-                  Text(
-                    'Hello! Register to get started',
-                    style: AppTextStyle.headline,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(22.0),
+          child: Form(
+            key: cubit.formKey,
+            child: Column(
+              children: [
+                Text(
+                  'Hello! Register to get started',
+                  style: AppTextStyle.headline,
+                ),
+
+                const Gap(32),
+
+                CustomTextFormField(
+                  controller: cubit.nameController,
+                  hintText: 'Username',
+                  keybordType: TextInputType.name,
+                  validator: AppValidator.name,
+                ),
+
+                const Gap(15),
+
+                CustomTextFormField(
+                  controller: cubit.emailController,
+                  hintText: 'Email',
+                  keybordType: TextInputType.emailAddress,
+                  validator: AppValidator.email,
+                ),
+
+                const Gap(15),
+
+                PasswordTextFormField(
+                  controller: cubit.passwordController,
+                  hintText: 'Password',
+                  validator: AppValidator.password,
+                ),
+
+                const Gap(15),
+
+                PasswordTextFormField(
+                  controller: cubit.confirmPasswordController,
+                  hintText: 'Confirm password',
+                  validator: (value) => AppValidator.confirmPassword(
+                    value,
+                    cubit.passwordController.text,
                   ),
+                ),
 
-                  const Gap(32),
+                const Gap(30),
 
-                  CustomTextFormField(
-                    controller: cubit.nameController,
-                    hintText: 'Username',
-                    keybordType: TextInputType.name,
-                    validator: AppValidator.name,
-                  ),
+                MainButton(
+                  text: 'Register',
+                  onPressed: () {
+                    if (cubit.formKey.currentState!.validate()) {
+                      cubit.register();
+                    }
+                  },
+                ),
 
-                  const Gap(15),
-
-                  CustomTextFormField(
-                    controller: cubit.emailController,
-                    hintText: 'Email',
-                    keybordType: TextInputType.emailAddress,
-                    validator: AppValidator.email,
-                  ),
-
-                  const Gap(15),
-
-                  PasswordTextFormField(
-                    controller: cubit.passwordController,
-                    hintText: 'Password',
-                    validator: AppValidator.password,
-                  ),
-
-                  const Gap(15),
-
-                  PasswordTextFormField(
-                    controller: cubit.confirmPasswordController,
-                    hintText: 'Confirm password',
-                    validator: (value) => AppValidator.confirmPassword(
-                      value,
-                      cubit.passwordController.text,
-                    ),
-                  ),
-
-                  const Gap(30),
-
-                  MainButton(
-                    text: 'Register',
-                    onPressed: () {
-                      if (cubit.formKey.currentState!.validate()) {
-                        cubit.register();
-                      }
-                    },
-                  ),
-
-                  Gap(35),
-                ],
-              ),
+                Gap(35),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -31,12 +31,12 @@ class HorizontalListShimmer extends StatelessWidget {
             ),
             child: Shimmer.fromColors(
               baseColor: AppColors.accentColor,
-              highlightColor: AppColors.secondaryColor,
+              highlightColor: Colors.grey,
               child: Container(
                 width: itemWidth,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColors.secondaryColor,
+                  color: Colors.grey[100],
                 ),
               ),
             ),
