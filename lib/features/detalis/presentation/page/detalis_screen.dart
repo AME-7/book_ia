@@ -1,8 +1,8 @@
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_back_button.dart';
-import 'package:book_ia/core/widget/main_button.dart';
-import 'package:book_ia/features/detalis/presentation/widgets/wishlist_icon.dart';
+import 'package:book_ia/features/detalis/presentation/widgets/cart_action/cart_icon.dart';
+import 'package:book_ia/features/detalis/presentation/widgets/wishlist_action/wishlist_icon.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -69,12 +69,7 @@ class DetalisScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${model.price}\$', style: AppTextStyle.title),
-            MainButton(
-              minWigth: 200,
-              text: 'Add to cart',
-              onPressed: () {},
-              bgColor: AppColors.blackColor,
-            ),
+            CartActionWidget(id: model.id ?? 0),
           ],
         ),
       ),

@@ -1,12 +1,12 @@
-class DetailsState {}
+class WishlistActionState {}
 
-class DetailsInitial extends DetailsState {}
+class WishlistActionInitial extends WishlistActionState {}
 
-class DetailsLoadingState extends DetailsState {}
+class WishlistActionLoadingState extends WishlistActionState {}
 
-class DetailsSuccessState extends DetailsState {
+class WishlistActionSuccessState extends WishlistActionState {
   final String msg;
-  DetailsSuccessState({required this.msg});
+  WishlistActionSuccessState({required this.msg});
 }
 
-class DetailsErrorState extends DetailsState {}
+class WishlistActionErrorState extends WishlistActionState {}

@@ -1,6 +1,7 @@
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
+import 'package:book_ia/features/cart/presentation/page/cart_screen.dart';
 import 'package:book_ia/features/home/presentation/page/home_screen.dart';
 import 'package:book_ia/features/wishlist/presentation/page/wishlist_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   List<Widget> screens = [
     HomeScreen(),
     WishlistScreen(),
-    Center(child: Text('Cart')),
+    CartScreen(),
     Center(child: Text('profile')),
   ];
   @override
