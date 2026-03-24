@@ -8,12 +8,14 @@ class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitialState());
 
   List<CartItem> products = [];
+  String total = '';
 
   Future<void> getCart() async {
     emit(CartLoadingState());
     var data = await CartRepo.getCart();
     if (data != null) {
       products = data.data?.cartItems ?? [];
+      total = data.data?.total ?? '';
       SharedPref.cacheCartids(products);
       emit(CartSuccessState());
     } else {
@@ -26,6 +28,7 @@ class CartCubit extends Cubit<CartState> {
     var data = await CartRepo.removeFromCart(cartItemId);
     if (data != null) {
       products = data.data?.cartItems ?? [];
+      total = data.data?.total ?? '';
       SharedPref.cacheCartids(products);
       emit(CartSuccessState());
     } else {
@@ -38,10 +41,21 @@ class CartCubit extends Cubit<CartState> {
     var data = await CartRepo.updateCart(cartItemId, quantity);
     if (data != null) {
       products = data.data?.cartItems ?? [];
+      total = data.data?.total ?? '';
       SharedPref.cacheCartids(products);
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());
+    }
+  }
+
+  Future<void> checkout() async {
+    emit(CheckoutLoadingState());
+    var success = await CartRepo.checkout();
+    if (success) {
+      emit(CheckoutSuccessState());
+    } else {
+      emit(CheckoutErrorState());
     }
   }
 }

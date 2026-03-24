@@ -4,13 +4,15 @@ import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot
 import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/new_password/new_password_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/otp/otp_screen.dart';
-import 'package:book_ia/features/auth/presentation/page/password%20changed/password_changed_screen.dart';
+import 'package:book_ia/features/auth/presentation/page/password_changed/password_changed_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/detalis/presentation/page/detalis_screen.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
 import 'package:book_ia/features/main/main_app_screen.dart';
+import 'package:book_ia/features/place_order/presentation/page/place_order_screen.dart';
+import 'package:book_ia/features/success/presentation/succese_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -61,6 +63,16 @@ class AppRouter {
         builder: (context, state) {
           return DetalisScreen(model: state.extra as Product);
         },
+      ),
+      GoRoute(
+        path: Routes.placeOrder,
+        builder: (context, state) {
+          return PlaceOrderScreen(total: state.extra as String);
+        },
+      ),
+      GoRoute(
+        path: Routes.success,
+        builder: (context, state) => const SucceseScreen(),
       ),
     ],
   );

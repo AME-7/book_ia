@@ -9,8 +9,10 @@ class Routes {
   static String welcome = '/welcom';
   static String otp = '/otp';
   static String main = '/main';
-  static String nawPassword = '/now password';
-  static String passwordChaged = '/password changed';
+  static String nawPassword = '/now-password';
+  static String passwordChaged = '/password-changed';
   static String forgot = '/forgot';
   static String detalis = '/detalis';
+  static String placeOrder = '/place-order';
+  static String success = '/success';
 }

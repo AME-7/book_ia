@@ -19,4 +19,6 @@ abstract class Apis {
   static const addToCart = '/add-to-cart';
   static const removeFromCart = '/remove-from-cart';
   static const updateCart = '/update-cart';
+  static const checkout = '/checkout';
+  static const governorates = '/governorates';
 }
