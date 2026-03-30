@@ -16,6 +16,7 @@ import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:book_ia/features/place_order/presentation/page/place_order_screen.dart';
 import 'package:book_ia/features/profile/presentation/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:book_ia/features/profile/presentation/edit_profile/page/edit_profile_screen.dart';
+import 'package:book_ia/features/profile/presentation/update_password/page/update_password_screen.dart';
 import 'package:book_ia/features/success/presentation/succese_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -91,6 +92,13 @@ class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (context) => EditProfileCubit()..loadInitData(),
           child: const EditProfileScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.updatePassword,
+        builder: (context, state) => BlocProvider(
+          create: (context) => EditProfileCubit()..loadInitData(),
+          child: const UpdatePasswordScreen(),
         ),
       ),
     ],

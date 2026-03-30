@@ -83,7 +83,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             Gap(4),
-            CardProfile(text: 'Reset Password'),
+            CardProfile(
+              text: 'Reset Password',
+              onTap: () {
+                pushTo(context, Routes.updatePassword).then((value) {
+                  setState(() {});
+                });
+              },
+            ),
             Gap(4),
             CardProfile(text: 'FAQ'),
             Gap(4),

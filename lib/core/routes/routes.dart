@@ -17,4 +17,5 @@ class Routes {
   static String success = '/success';
   static String editProfile = '/edit-profile';
   static String search = '/search';
+  static String updatePassword = '/update-password';
 }

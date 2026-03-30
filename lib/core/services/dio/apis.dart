@@ -8,6 +8,8 @@ abstract class Apis {
   // home
   static const sliders = '/sliders';
   static const productsBestseller = '/products-bestseller';
+  static const search = '/products-search';
+
   // wishlist
   static const wishlist = '/wishlist';
   static const addTowishlist = '/add-to-wishlist';
@@ -27,6 +29,5 @@ abstract class Apis {
   // profile
   static const profile = '/profile';
   static const updateProfile = '/update-profile';
-
-  static const search = '/products-search';
+  static const updatePassword = '/update-password';
 }

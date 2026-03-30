@@ -8,7 +8,9 @@ class CartRepo {
     try {
       var response = await DioProvider.get(
         endpoint: Apis.cart,
-        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
+        },
       );
       if (response.statusCode == 200) {
         return CartResponse.fromJson(response.data);
@@ -25,7 +27,9 @@ class CartRepo {
       var response = await DioProvider.post(
         endpoint: Apis.addToCart,
         data: {"product_id": productId},
-        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
+        },
       );
       if (response.statusCode == 201) {
         return CartResponse.fromJson(response.data);
@@ -42,7 +46,9 @@ class CartRepo {
       var response = await DioProvider.post(
         endpoint: Apis.removeFromCart,
         data: {"cart_item_id": cartItemId},
-        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
+        },
       );
       if (response.statusCode == 200) {
         return CartResponse.fromJson(response.data);
@@ -59,7 +65,9 @@ class CartRepo {
       var response = await DioProvider.post(
         endpoint: Apis.updateCart,
         data: {"cart_item_id": cartItemId, "quantity": quantity},
-        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
+        },
       );
       if (response.statusCode == 201) {
         return CartResponse.fromJson(response.data);
@@ -75,7 +83,9 @@ class CartRepo {
     try {
       var response = await DioProvider.get(
         endpoint: Apis.checkout,
-        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+        headers: {
+          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
+        },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return true;
