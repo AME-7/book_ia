@@ -92,8 +92,6 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                               ? 'Passwords do not match'
                               : null,
                         ),
-
-                        Gap(80),
                       ],
                     ),
                   );
