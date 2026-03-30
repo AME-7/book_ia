@@ -20,5 +20,13 @@ abstract class Apis {
   static const removeFromCart = '/remove-from-cart';
   static const updateCart = '/update-cart';
   static const checkout = '/checkout';
+
+  // place order
   static const governorates = '/governorates';
+
+  // profile
+  static const profile = '/profile';
+  static const updateProfile = '/update-profile';
+
+  static const search = '/products-search';
 }

@@ -1,0 +1,42 @@
+import 'dart:io';
+
+import 'package:book_ia/core/services/local/shared_pref.dart';
+import 'package:book_ia/features/profile/data/model/update_profile_params.dart';
+import 'package:book_ia/features/profile/data/repo/profile_repo.dart';
+import 'package:book_ia/features/profile/presentation/edit_profile/cubit/edit_profile_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class EditProfileCubit extends Cubit<EditProfileState> {
+  EditProfileCubit() : super(EditProfileInitial());
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  String imageUrl = '';
+
+  void loadInitData() {
+    var profileData = SharedPref.getUserInfo();
+    nameController.text = profileData?.name ?? '';
+    phoneController.text = profileData?.phone ?? '';
+    addressController.text = profileData?.address ?? '';
+    imageUrl = profileData?.image ?? '';
+    emit(EditProfileSuccese());
+  }
+
+  Future<void> updateProfile(File image) async {
+    emit(EditProfileLoading());
+    var params = UpdateProfileParams(
+      name: nameController.text,
+      phone: phoneController.text,
+      address: addressController.text,
+      image: image,
+    );
+    var data = await ProfileRepo.editProfile(params);
+    if (data != null) {
+      emit(EditProfileSuccese());
+    } else {
+      emit(EditProfileError());
+    }
+  }
+}

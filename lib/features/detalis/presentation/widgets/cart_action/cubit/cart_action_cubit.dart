@@ -11,7 +11,7 @@ class CartActionCubit extends Cubit<CartActionState> {
     var data = await CartRepo.addToCart(productId);
     if (data != null) {
       var products = data.data?.cartItems ?? [];
-      SharedPref.cacheCartids(products);
+      SharedPref.cacheCartIds(products);
       emit(CartActionsSuccessState(msg: 'Added To Cart'));
     } else {
       emit(CartActionsErrorState());
@@ -23,7 +23,7 @@ class CartActionCubit extends Cubit<CartActionState> {
     var data = await CartRepo.removeFromCart(productId);
     if (data != null) {
       var products = data.data?.cartItems ?? [];
-      SharedPref.cacheCartids(products);
+      SharedPref.cacheCartIds(products);
       emit(CartActionsSuccessState(msg: 'Removed From Cart'));
     } else {
       emit(CartActionsErrorState());

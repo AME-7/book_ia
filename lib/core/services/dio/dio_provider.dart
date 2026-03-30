@@ -10,7 +10,7 @@ abstract class DioProvider {
 
   static Future<Response> post({
     required String endpoint,
-    Map<String, dynamic>? data,
+    Object? data,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -66,7 +66,7 @@ abstract class DioProvider {
 
   static Future<Response> patch({
     required String endpoint,
-    Object? data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
   }) async {

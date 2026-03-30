@@ -11,25 +11,56 @@ class WishlistCubit extends Cubit<WishlistState> {
 
   Future<void> getWishlist() async {
     emit(WishlistLoadingState());
+
     var data = await WishlistRepo.getWishlist();
+
     if (data != null) {
       products = data.data?.products ?? [];
-      SharedPref.cacheWishlistids(products);
-      emit(WishlistSuccessState());
+      SharedPref.cacheWishlistIds(products);
+      emit(WishlistSuccessState(List.from(products)));
     } else {
       emit(WishlistErrorState());
     }
   }
 
-  Future<void> removeFromWishlist(int productId) async {
-    emit(WishlistLoadingState());
-    var data = await WishlistRepo.removeFromWishlist(productId);
-    if (data != null) {
-      products = data.data?.products ?? [];
-      SharedPref.cacheWishlistids(products);
-      emit(WishlistSuccessState());
-    } else {
+  Future<void> addToWishlist(Product product) async {
+    // optimistic update
+    products.add(product);
+    emit(WishlistSuccessState(List.from(products)));
+
+    SharedPref.cacheWishlistIds(products);
+
+    var data = await WishlistRepo.addToWishlist(product.id ?? 0);
+
+    if (data == null) {
+      products.removeWhere((p) => p.id == product.id);
       emit(WishlistErrorState());
     }
+  }
+
+  Future<void> removeFromWishlist(int productId) async {
+    products.removeWhere((p) => p.id == productId);
+
+    SharedPref.cacheWishlistIds(products);
+
+    emit(WishlistSuccessState(List.from(products)));
+
+    var data = await WishlistRepo.removeFromWishlist(productId);
+
+    if (data == null) {
+      emit(WishlistErrorState());
+    }
+  }
+
+  void toggleWishlist(Product product) {
+    if (isInWishlist(product.id ?? 0)) {
+      removeFromWishlist(product.id ?? 0);
+    } else {
+      addToWishlist(product);
+    }
+  }
+
+  bool isInWishlist(int productId) {
+    return products.any((p) => p.id == productId);
   }
 }

@@ -12,33 +12,7 @@ class WishlistBooks extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WishlistCubit, WishlistState>(
       builder: (context, state) {
-        var cubit = context.read<WishlistCubit>();
-        if (state is WishlistSuccessState) {
-          var books = cubit.products;
-          if (books.isEmpty) {
-            return const Center(child: Text('No books in wishlist'));
-          }
-          return GridView.builder(
-            itemCount: books.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 11,
-              crossAxisSpacing: 11,
-              childAspectRatio: .6,
-            ),
-            itemBuilder: (context, index) {
-              return BookCard(
-                product: books[index],
-                onRemoveFromWishlist: () {
-                  cubit.removeFromWishlist(books[index].id ?? 0);
-                },
-                onRefresh: () {
-                  cubit.getWishlist();
-                },
-              );
-            },
-          );
-        } else {
+        if (state is WishlistLoadingState) {
           return GridShimmer(
             crossAxisCount: 2,
             mainAxisSpacing: 11,
@@ -48,6 +22,36 @@ class WishlistBooks extends StatelessWidget {
             shrinkWrap: false,
           );
         }
+
+        if (state is WishlistErrorState) {
+          return const Center(child: Text('Something went wrong'));
+        }
+
+        var books = context.watch<WishlistCubit>().products;
+
+        if (books.isEmpty) {
+          return const Center(child: Text('No books in wishlist'));
+        }
+
+        return GridView.builder(
+          itemCount: books.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 11,
+            crossAxisSpacing: 11,
+            childAspectRatio: .6,
+          ),
+          itemBuilder: (context, index) {
+            return BookCard(
+              product: books[index],
+              onRemoveFromWishlist: () {
+                context.read<WishlistCubit>().removeFromWishlist(
+                  books[index].id ?? 0,
+                );
+              },
+            );
+          },
+        );
       },
     );
   }

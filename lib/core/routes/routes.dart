@@ -15,4 +15,6 @@ class Routes {
   static String detalis = '/detalis';
   static String placeOrder = '/place-order';
   static String success = '/success';
+  static String editProfile = '/edit-profile';
+  static String search = '/search';
 }

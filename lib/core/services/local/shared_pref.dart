@@ -1,105 +1,89 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:book_ia/features/auth/data/models/auth_responnse/user.dart';
 import 'package:book_ia/features/cart/data/model/cart_response/cart_item.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharedPref {
-  static late SharedPreferences pref;
-  static const String ktoken = 'token';
+  static late SharedPreferences _pref;
+
+  static const String kToken = 'token';
   static const String kUser = 'user';
   static const String kWishlist = 'wishlistIds';
   static const String kCart = 'cartIds';
 
+  ///  init
   static Future<void> init() async {
-    pref = await SharedPreferences.getInstance();
+    _pref = await SharedPreferences.getInstance();
   }
 
+  // ================= TOKEN =================
+
   static Future<void> setToken(String value) async {
-    await pref.setString(ktoken, value);
+    await _pref.setString(kToken, value);
   }
 
   static String? getToken() {
-    return pref.getString(ktoken);
+    return _pref.getString(kToken);
   }
 
-  static Future<void> setUser(User? model) async {
-    if (model == null) {
-      return;
-    }
-    var objToJson = model.toJson();
-    var jsonToString = jsonEncode(objToJson.toString());
-    await pref.setString(kUser, jsonToString);
+  static Future<void> removeToken() async {
+    await _pref.remove(kToken);
   }
 
-  static User? getUser() {
-    var cachString = pref.getString(kUser);
-    if (cachString == null) {
-      return null;
-    }
-    var stringToJson = jsonDecode(cachString);
+  // ================= USER =================
 
-    var jsonToObject = User.fromJson(stringToJson);
-    return jsonToObject;
+  static Future<void> setUserInfo(User? model) async {
+    if (model == null) return;
+
+    final jsonString = jsonEncode(model.toJson());
+    await _pref.setString(kUser, jsonString);
   }
 
-  // __ wishlist
-  static void cacheWishlistids(List<Product> items) {
-    var ids = items.map((item) => item.id.toString()).toList();
+  static User? getUserInfo() {
+    final cachedString = _pref.getString(kUser);
 
-    cechData(kWishlist, ids);
+    if (cachedString == null) return null;
+
+    final jsonData = jsonDecode(cachedString);
+    return User.fromJson(jsonData);
+  }
+
+  static Future<void> removeUser() async {
+    await _pref.remove(kUser);
+  }
+
+  // ================= WISHLIST =================
+
+  static Future<void> cacheWishlistIds(List<Product> items) async {
+    final ids = items.map((e) => e.id.toString()).toList();
+    await _pref.setStringList(kWishlist, ids);
   }
 
   static List<int> getWishlistIds() {
-    var ids = getData(kWishlist);
-    if (ids is List<String>) {
-      return ids.map((id) => int.tryParse(id) ?? 0).toList();
-    } else {
-      return [];
-    }
+    final ids = _pref.getStringList(kWishlist);
+    if (ids == null) return [];
+
+    return ids.map((e) => int.tryParse(e) ?? 0).toList();
   }
 
-  // __cart
+  // ================= CART =================
 
-  static void cacheCartids(List<CartItem> items) {
-    var ids = items.map((item) => item.itemProductId.toString()).toList();
-
-    cechData(kCart, ids);
+  static Future<void> cacheCartIds(List<CartItem> items) async {
+    final ids = items.map((e) => e.itemProductId.toString()).toList();
+    await _pref.setStringList(kCart, ids);
   }
 
   static List<int> getCartIds() {
-    var ids = getData(kCart);
-    if (ids is List<String>) {
-      return ids.map((id) => int.tryParse(id) ?? 0).toList();
-    } else {
-      return [];
-    }
+    final ids = _pref.getStringList(kCart);
+    if (ids == null) return [];
+
+    return ids.map((e) => int.tryParse(e) ?? 0).toList();
   }
 
-  static Future<void> cechData(String key, dynamic value) async {
-    if (value is String) {
-      await pref.setString(key, value);
-    } else if (value is int) {
-      await pref.setInt(key, value);
-    } else if (value is bool) {
-      await pref.setBool(key, value);
-    } else if (value is double) {
-      await pref.setDouble(key, value);
-    } else if (value is List<String>) {
-      await pref.setStringList(key, value);
-    }
-  }
+  // ================= GENERAL =================
 
-  static Object getData(String kay) {
-    return pref.get(kay) ?? '';
-  }
-
-  static Future<void> removeData(String kay) async {
-    await pref.remove(kay);
-  }
-
-  static Future<void> clear() async {
-    await pref.clear();
+  static Future<void> clearAll() async {
+    await _pref.clear();
   }
 }

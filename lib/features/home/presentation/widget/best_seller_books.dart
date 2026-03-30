@@ -16,7 +16,7 @@ class BestSellerBooks extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is HomeSuccessState) {
-          var books = context.read<HomeCubit>().products;
+          var books = state.books;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

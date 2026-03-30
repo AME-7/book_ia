@@ -16,7 +16,7 @@ class CartCubit extends Cubit<CartState> {
     if (data != null) {
       products = data.data?.cartItems ?? [];
       total = data.data?.total ?? '';
-      SharedPref.cacheCartids(products);
+      SharedPref.cacheCartIds(products);
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());
@@ -29,7 +29,7 @@ class CartCubit extends Cubit<CartState> {
     if (data != null) {
       products = data.data?.cartItems ?? [];
       total = data.data?.total ?? '';
-      SharedPref.cacheCartids(products);
+      SharedPref.cacheCartIds(products);
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());
@@ -42,7 +42,7 @@ class CartCubit extends Cubit<CartState> {
     if (data != null) {
       products = data.data?.cartItems ?? [];
       total = data.data?.total ?? '';
-      SharedPref.cacheCartids(products);
+      SharedPref.cacheCartIds(products);
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());

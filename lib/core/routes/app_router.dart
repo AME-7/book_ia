@@ -8,10 +8,14 @@ import 'package:book_ia/features/auth/presentation/page/password_changed/passwor
 import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/detalis/presentation/page/detalis_screen.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
+import 'package:book_ia/features/home/data/repository/home_repo.dart';
+import 'package:book_ia/features/home/presentation/search/presentation/page/search_screen.dart';
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
 import 'package:book_ia/features/main/main_app_screen.dart';
 import 'package:book_ia/features/place_order/presentation/page/place_order_screen.dart';
+import 'package:book_ia/features/profile/presentation/edit_profile/cubit/edit_profile_cubit.dart';
+import 'package:book_ia/features/profile/presentation/edit_profile/page/edit_profile_screen.dart';
 import 'package:book_ia/features/success/presentation/succese_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -44,7 +48,10 @@ class AppRouter {
       GoRoute(path: Routes.otp, builder: (context, state) => const OtpScreen()),
       GoRoute(
         path: Routes.main,
-        builder: (context, state) => const MainAppScreen(),
+        builder: (context, state) {
+          var selectedIndex = state.extra as int?;
+          return MainAppScreen(selectedIndex: selectedIndex);
+        },
       ),
       GoRoute(
         path: Routes.nawPassword,
@@ -73,6 +80,18 @@ class AppRouter {
       GoRoute(
         path: Routes.success,
         builder: (context, state) => const SucceseScreen(),
+      ),
+
+      GoRoute(
+        path: Routes.search,
+        builder: (context, state) => SearchScreen(repo: HomeRepo()),
+      ),
+      GoRoute(
+        path: Routes.editProfile,
+        builder: (context, state) => BlocProvider(
+          create: (context) => EditProfileCubit()..loadInitData(),
+          child: const EditProfileScreen(),
+        ),
       ),
     ],
   );
