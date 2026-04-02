@@ -5,7 +5,6 @@ import 'package:book_ia/features/home/data/models/best_seller_book_response/prod
 class OrderCache {
   static const String lastOrderKey = "last_order";
 
-  /// 🟢 Save last order فقط
   static Future<void> saveOrder(List<Product> items) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -17,7 +16,6 @@ class OrderCache {
     );
   }
 
-  /// 🟢 Get last order فقط
   static Future<List<Product>> getOrder() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -36,4 +34,6 @@ class OrderCache {
         .map((e) => Product.fromJson(Map<String, dynamic>.from(e)))
         .toList();
   }
+
+  void cleareCeart() {}
 }

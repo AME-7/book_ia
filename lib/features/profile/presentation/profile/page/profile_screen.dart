@@ -27,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text('profile'.tr(), style: AppTextStyle.title),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {},
             icon: CustomSvgPicture(path: AppImages.logeoutSvg),
           ),
         ],
