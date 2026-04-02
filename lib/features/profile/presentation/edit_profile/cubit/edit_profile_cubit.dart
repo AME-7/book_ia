@@ -25,17 +25,22 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }
 
   Future<void> updateProfile(File image) async {
-    emit(EditProfileLoading());
-    var params = UpdateProfileParams(
-      name: nameController.text,
-      phone: phoneController.text,
-      address: addressController.text,
-      image: image,
-    );
-    var data = await ProfileRepo.editProfile(params);
-    if (data != null) {
-      emit(EditProfileSuccese());
-    } else {
+    try {
+      emit(EditProfileLoading());
+      var params = UpdateProfileParams(
+        name: nameController.text,
+        phone: phoneController.text,
+        address: addressController.text,
+        image: image,
+      );
+      var data = await ProfileRepo.editProfile(params);
+      if (data != null) {
+        emit(EditProfileSuccese());
+      } else {
+        emit(EditProfileError());
+      }
+    } catch (e) {
+      print(e);
       emit(EditProfileError());
     }
   }

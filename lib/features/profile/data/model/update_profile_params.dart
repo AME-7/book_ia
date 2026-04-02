@@ -23,17 +23,19 @@ class UpdateProfileParams {
     'address': address,
     'phone': phone,
   };
-  toFormData() async {
-    FormData formData = FormData.fromMap({
+
+  FormData toFormData() {
+    return FormData.fromMap({
       if (name != null) 'name': name,
       if (address != null) 'address': address,
       if (phone != null) 'phone': phone,
       if (image != null)
-        'image': await MultipartFile.fromFile(
+        'image': MultipartFile.fromFile(
           image!.path,
           filename: image!.path.split('/').last,
         ),
     });
-    return formData;
+
+    // return formData;
   }
 }

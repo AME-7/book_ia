@@ -16,9 +16,10 @@ class ProfileRepo {
         data: params.toFormData(),
         headers: {
           'Content-Type': 'multipart/form-data',
-          "authorization": "Bearer${SharedPref.getToken}",
+          "authorization": "Bearer ${SharedPref.getToken()}",
         },
       );
+
       if (response.statusCode == 200) {
         var data = UpdateProfileResponse.fromJson(response.data);
         SharedPref.setUserInfo(data.data);

@@ -13,11 +13,15 @@ import 'package:book_ia/features/home/presentation/search/presentation/page/sear
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
 import 'package:book_ia/features/main/main_app_screen.dart';
-import 'package:book_ia/features/place_order/presentation/page/place_order_screen.dart';
+import 'package:book_ia/features/orders/order_history/data/models/order_model.dart';
+import 'package:book_ia/features/orders/order_history/presentation/page/my_order_screen.dart';
+import 'package:book_ia/features/orders/order_history/presentation/page/oreder_details_screen.dart';
+import 'package:book_ia/features/orders/place_order/presentation/page/place_order_screen.dart';
 import 'package:book_ia/features/profile/presentation/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:book_ia/features/profile/presentation/edit_profile/page/edit_profile_screen.dart';
 import 'package:book_ia/features/profile/presentation/update_password/page/update_password_screen.dart';
 import 'package:book_ia/features/success/presentation/succese_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -100,6 +104,25 @@ class AppRouter {
           create: (context) => EditProfileCubit()..loadInitData(),
           child: const UpdatePasswordScreen(),
         ),
+      ),
+      GoRoute(
+        path: Routes.orderDetails,
+        builder: (context, state) {
+          final data = state.extra as Map?;
+
+          if (data == null) {
+            return const Scaffold(body: Center(child: Text("No order data")));
+          }
+
+          final order = data['order'] as OrderModel;
+          final items = data['items'] as List<Product>;
+
+          return OrderDetailsScreen(order: order, items: items);
+        },
+      ),
+      GoRoute(
+        path: Routes.orderHistory,
+        builder: (context, state) => MyOrdersScreen(),
       ),
     ],
   );

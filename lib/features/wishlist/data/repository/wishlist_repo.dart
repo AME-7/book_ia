@@ -9,9 +9,7 @@ class WishlistRepo {
       var response = await DioProvider.get(
         endpoint: Apis.wishlist,
         queryParameters: {"page": 1},
-        headers: {
-          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
-        },
+        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
       );
       if (response.statusCode == 200) {
         return WishlistResponse.fromJson(response.data);
@@ -29,9 +27,7 @@ class WishlistRepo {
         endpoint: Apis.addTowishlist,
         queryParameters: {"page": 1},
         data: {"product_id": productId},
-        headers: {
-          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
-        },
+        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
       );
       if (response.statusCode == 200) {
         return WishlistResponse.fromJson(response.data);
@@ -49,9 +45,7 @@ class WishlistRepo {
         endpoint: Apis.removeFromwishlist,
         queryParameters: {"page": 1},
         data: {"product_id": productId},
-        headers: {
-          "Authorization": "Bearer ${SharedPref.getToken(SharedPref.kToken)}",
-        },
+        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
       );
       if (response.statusCode == 200) {
         return WishlistResponse.fromJson(response.data);

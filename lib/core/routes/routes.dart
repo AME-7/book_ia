@@ -18,4 +18,6 @@ class Routes {
   static String editProfile = '/edit-profile';
   static String search = '/search';
   static String updatePassword = '/update-password';
+  static String orderDetails = '/order-details';
+  static String orderHistory = '/order-history';
 }

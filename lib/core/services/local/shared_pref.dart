@@ -23,7 +23,7 @@ abstract class SharedPref {
     await _pref.setString(kToken, value);
   }
 
-  static String? getToken(kToken) {
+  static String? getToken() {
     return _pref.getString(kToken);
   }
 

@@ -7,6 +7,7 @@ import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/features/profile/presentation/profile/widget/card_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -23,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var profileData = SharedPref.getUserInfo();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('profile', style: AppTextStyle.title),
+        title: Text('profile'.tr(), style: AppTextStyle.title),
         actions: [
           IconButton(
             onPressed: () {},
@@ -72,7 +73,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             Gap(30),
-            CardProfile(text: 'My Orders'),
+            CardProfile(
+              text: 'My Orders',
+              onTap: () {
+                pushTo(context, Routes.orderHistory).then((value) {
+                  setState(() {});
+                });
+              },
+            ),
             Gap(4),
             CardProfile(
               text: 'Edit Profile',

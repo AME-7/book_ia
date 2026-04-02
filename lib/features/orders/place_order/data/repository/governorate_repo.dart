@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:book_ia/core/services/dio/apis.dart';
 import 'package:book_ia/core/services/dio/dio_provider.dart';
-import 'package:book_ia/features/place_order/data/models/governorate_response.dart';
+import 'package:book_ia/features/orders/place_order/data/models/governorate_response.dart';
 
 class PlaceOrderRepo {
   static Future<GovernoratesResponse?> getGovernorates() async {

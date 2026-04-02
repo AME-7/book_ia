@@ -2,12 +2,14 @@ import 'package:book_ia/core/services/local/shared_pref.dart';
 import 'package:book_ia/features/cart/data/model/cart_response/cart_item.dart';
 import 'package:book_ia/features/cart/data/repository/cart_repo.dart';
 import 'package:book_ia/features/cart/presentation/cubit/cart_state.dart';
+import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitialState());
 
   List<CartItem> products = [];
+  List<Product> items = [];
   String total = '';
 
   Future<void> getCart() async {

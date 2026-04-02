@@ -25,6 +25,8 @@ abstract class Apis {
 
   // place order
   static const governorates = '/governorates';
+  static const orderHistory = '/order-history';
+  static const placeOrder = '/place-order';
 
   // profile
   static const profile = '/profile';

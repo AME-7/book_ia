@@ -15,7 +15,7 @@ class UpdatePasswordCubit extends Cubit<UpdatePasswordState> {
     emit(UpdatePasswordLoading());
 
     try {
-      final token = SharedPref.getToken(SharedPref.kToken);
+      final token = SharedPref.getToken();
 
       await DioProvider.post(
         endpoint: Apis.updatePassword,

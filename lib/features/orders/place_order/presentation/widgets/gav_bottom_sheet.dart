@@ -1,6 +1,6 @@
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/styles/text_style.dart';
-import 'package:book_ia/features/place_order/data/models/governorate.dart';
+import 'package:book_ia/features/orders/place_order/data/models/governorate.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
