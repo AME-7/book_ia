@@ -46,12 +46,27 @@ class MyOrdersScreen extends StatelessWidget {
                 return GestureDetector(
                   onTap: () async {
                     print('ORDER ID FROM LIST : ${order.id}');
-                    final items = await OrderCache.getOrder();
-                    print('LOADED ITEM : ${items.length}');
+
+                    final orders = await OrderCache.getOrders();
+
+                    print('LOADED ORDERS: ${orders.length}');
+
+                    /// ✅ حماية من الكراش
+                    if (orders.isEmpty || index >= orders.length) {
+                      print("❌ No cached data for this order");
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("No order details found")),
+                      );
+                      return;
+                    }
+
+                    print('LOADED ITEM : ${orders[index].length}');
+
                     pushTo(
                       context,
                       Routes.orderDetails,
-                      extra: {'order': order, 'items': items},
+                      extra: {'order': order, 'items': orders[index]},
                     );
                   },
                   child: Container(
@@ -67,7 +82,7 @@ class MyOrdersScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Order No${order.orderCode}",
+                              "Order No ${order.orderCode}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),

@@ -3,37 +3,46 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 
 class OrderCache {
-  static const String lastOrderKey = "last_order";
+  static const String key = "orders";
 
-  static Future<void> saveOrder(List<Product> items) async {
+  /// ✅ حفظ أوردر جديد
+  static Future<void> saveOrder(List<Product> products) async {
     final prefs = await SharedPreferences.getInstance();
 
-    print("SAVING ITEMS: ${items.length}");
+    print("SAVING ITEMS: ${products.length}");
 
-    await prefs.setString(
-      lastOrderKey,
-      jsonEncode(items.map((e) => e.toJson()).toList()),
-    );
+    /// 🟢 هات كل الأوردرات القديمة
+    List<String> existingOrders = prefs.getStringList(key) ?? [];
+
+    /// 🟢 حول الأوردر الحالي لـ JSON
+    List<Map<String, dynamic>> order = products.map((e) => e.toJson()).toList();
+
+    /// 🟢 ضيفه على اللي قبله
+    existingOrders.add(jsonEncode(order));
+
+    /// 🟢 خزّن كله
+    await prefs.setStringList(key, existingOrders);
   }
 
-  static Future<List<Product>> getOrder() async {
+  /// ✅ رجّع كل الأوردرات
+  static Future<List<List<Product>>> getOrders() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final data = prefs.getString(lastOrderKey);
+    List<String> savedOrders = prefs.getStringList(key) ?? [];
 
-    if (data == null || data.isEmpty) {
-      print("NO SAVED ORDER ❌");
-      return [];
-    }
+    List<List<Product>> orders = savedOrders.map((orderString) {
+      List decoded = jsonDecode(orderString);
+      return decoded.map((e) => Product.fromJson(e)).toList();
+    }).toList();
 
-    final list = jsonDecode(data);
+    print("LOADED ORDERS: ${orders.length}");
 
-    print("LOADED FROM CACHE: ${list.length}");
-
-    return (list as List)
-        .map((e) => Product.fromJson(Map<String, dynamic>.from(e)))
-        .toList();
+    return orders;
   }
 
-  void cleareCeart() {}
+  /// 🧹 مسح كل الأوردرات (اختياري)
+  static Future<void> clearOrders() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(key);
+  }
 }

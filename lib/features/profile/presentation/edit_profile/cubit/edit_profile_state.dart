@@ -2,7 +2,7 @@ class EditProfileState {}
 
 class EditProfileLoading extends EditProfileState {}
 
-class EditProfileSuccese extends EditProfileState {}
+class EditProfileSucces extends EditProfileState {}
 
 class EditProfileInitial extends EditProfileState {}
 

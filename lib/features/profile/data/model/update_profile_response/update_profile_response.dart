@@ -1,4 +1,4 @@
-import 'package:book_ia/features/auth/data/models/auth_responnse/user.dart';
+import 'package:book_ia/features/auth/data/models/auth_response/user.dart';
 
 class UpdateProfileResponse {
   User? data;

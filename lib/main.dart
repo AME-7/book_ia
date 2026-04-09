@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  DioProvider.int();
+  DioProvider.init();
   await SharedPref.init();
 
   runApp(
@@ -18,7 +18,9 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => WishlistCubit()..getWishlist()),
         BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(create: (context) => CartCubit()..getCart()),
       ],
+
       child: EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
         path: 'assets/translations',
