@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:book_ia/features/auth/data/models/auth_response/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:book_ia/features/auth/data/models/auth_responnse/user.dart';
 import 'package:book_ia/features/cart/data/model/cart_response/cart_item.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
 

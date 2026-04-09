@@ -1,18 +1,14 @@
-import 'data.dart';
-
-class AuthResponnse {
-  Data? data;
+class BaseRespons {
+  dynamic data;
   String? message;
   List<dynamic>? error;
   int? status;
 
-  AuthResponnse({this.data, this.message, this.error, this.status});
+  BaseRespons({this.data, this.message, this.error, this.status});
 
-  factory AuthResponnse.fromJson(Map<String, dynamic> json) {
-    return AuthResponnse(
-      data: json['data'] == null
-          ? null
-          : Data.fromJson(json['data'] as Map<String, dynamic>),
+  factory BaseRespons.fromJson(Map<String, dynamic> json) {
+    return BaseRespons(
+      data: json['data'],
       message: json['message'] as String?,
       error: json['error'] as List<dynamic>?,
       status: json['status'] as int?,

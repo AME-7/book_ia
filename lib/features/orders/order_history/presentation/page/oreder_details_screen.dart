@@ -47,7 +47,10 @@ class OrderDetailsScreen extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text(item.name ?? ""), Text("Qty: 1")],
+                          children: [
+                            Text(item.name ?? ""),
+                            Text("Qty: ${item.quantity ?? 1}"),
+                          ],
                         ),
                       ),
                       Text("\$${item.price ?? 0}"),

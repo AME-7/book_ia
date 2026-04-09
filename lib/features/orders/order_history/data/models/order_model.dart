@@ -22,4 +22,6 @@ class OrderModel {
       total: double.tryParse(json['total'].toString()) ?? 0.0,
     );
   }
+
+  void operator [](int other) {}
 }

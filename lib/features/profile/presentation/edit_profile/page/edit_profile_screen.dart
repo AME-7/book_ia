@@ -29,14 +29,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
-        if (state is EditProfileSuccese) {
+        if (state is EditProfileSucces) {
           pop(context);
           pop(context);
         } else if (state is EditProfileError) {
           pop(context);
-          showMyDialog(context, 'Failed to update profile. please try again');
-          // ignore: avoid_print
-          return print(Error());
+          showMyDialog(context, 'Failed to update profile. Please try again.');
         } else if (state is EditProfileLoading) {
           showLoadingDialog(context);
         }

@@ -39,14 +39,18 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
       child: BlocListener<PlaceOrderCubit, PlaceOrderState>(
         listener: (context, state) async {
           if (state is PlaceOrderSuccessState) {
-            /// ✅ خد نسخة من الكارت (مهم)
-            final cartItems = List<Product>.from(
-              context.read<CartCubit>().items,
-            );
+            final cartItems = context.read<CartCubit>().lastOrderItem;
 
-            print('CART ITEM COUNT: ${cartItems.length}');
-
-            await OrderCache.saveOrder(cartItems);
+            final products = cartItems.map((e) {
+              return Product(
+                id: e.itemProductId,
+                name: e.itemProductName,
+                price: e.itemProductPrice?.toString(),
+                image: e.itemProductImage,
+              );
+            }).toList();
+            print("SAVING ITEMS: ${products.length}");
+            await OrderCache.saveOrder(products);
 
             if (!mounted) return;
 
