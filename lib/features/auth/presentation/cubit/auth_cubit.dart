@@ -1,11 +1,27 @@
 import 'package:book_ia/features/auth/data/models/register_parames.dart';
-import 'package:book_ia/features/auth/data/repo/auth_repo.dart';
+import 'package:book_ia/features/auth/domain/usecases/forget_password_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/login_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/new_password_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/register_usecuses.dart';
+import 'package:book_ia/features/auth/domain/usecases/verif_otp_usecases.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitailState());
+  AuthCubit({
+    required this.loginUseCase,
+    required this.registerUsecuses,
+    required this.forgetPasswordUsecases,
+    required this.verifOtpUsecases,
+    required this.newPasswordUsecases,
+  }) : super(AuthInitailState());
+  final LoginUsecases loginUseCase;
+  final RegisterUsecuses registerUsecuses;
+  final ForgetPasswordUsecases forgetPasswordUsecases;
+  final VerifOtpUsecases verifOtpUsecases;
+  final NewPasswordUsecases newPasswordUsecases;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -19,8 +35,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login() async {
     emit(AuthLodingState());
-    var response = await AuthRepo.login(
-      RegisterParames(
+    var response = await loginUseCase.call(
+      AuthParams(
         email: emailController.text,
         password: passwordController.text,
       ),
@@ -38,8 +54,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> register() async {
     emit(AuthLodingState());
-    var response = await AuthRepo.register(
-      RegisterParames(
+    var response = await registerUsecuses.call(
+      AuthParams(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
@@ -58,8 +74,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> forgot() async {
     emit(AuthLodingState());
-    var response = await AuthRepo.forgot(
-      RegisterParames(email: emailController.text),
+    var response = await forgetPasswordUsecases.call(
+      AuthParams(email: emailController.text),
     );
     response.fold(
       (l) {
@@ -74,15 +90,34 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyOtp() async {
     emit(AuthLodingState());
 
-    var response = await AuthRepo.verifyOtp(
-      email: emailController.text,
-      otp: otp,
-    );
+    var response = await verifOtpUsecases.call();
 
-    if (response != null) {
-      emit(AuthSuccessState());
-    } else {
-      emit(AuthErrorState(message: "Invalid Code"));
-    }
+    response.fold(
+      (l) {
+        emit(AuthErrorState(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccessState());
+      },
+    );
+  }
+
+  Future<void> newPassword() async {
+    emit(AuthLodingState());
+    var response = await newPasswordUsecases.call(
+      AuthParams(
+        email: emailController.text,
+        password: passwordController.text,
+        passwordConfirmation: confirmPasswordController.text,
+      ),
+    );
+    response.fold(
+      (l) {
+        emit(AuthErrorState(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccessState());
+      },
+    );
   }
 }

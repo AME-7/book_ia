@@ -19,44 +19,41 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: GestureDetector(
-            onTap: () {
-              pop(context);
-            },
-            child: CustomSvgPicture(path: AppImages.backSvg),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: GestureDetector(
+          onTap: () {
+            pop(context);
+          },
+          child: CustomSvgPicture(path: AppImages.backSvg),
         ),
+      ),
 
-        body: _forgotPasswordBody(),
+      body: _forgotPasswordBody(),
 
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Remember Password?', style: AppTextStyle.captoin1),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Remember Password?', style: AppTextStyle.captoin1),
 
-              const Gap(10),
+            const Gap(10),
 
-              GestureDetector(
-                onTap: () {
-                  pushTo(context, Routes.login);
-                },
-                child: Text(
-                  'Login',
-                  style: AppTextStyle.captoin1.copyWith(
-                    color: AppColors.primaryColor,
-                  ),
+            GestureDetector(
+              onTap: () {
+                pushTo(context, Routes.login);
+              },
+              child: Text(
+                'Login',
+                style: AppTextStyle.captoin1.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

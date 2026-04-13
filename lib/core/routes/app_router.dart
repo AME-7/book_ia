@@ -1,4 +1,6 @@
+import 'package:book_ia/core/di/service_locator.dart';
 import 'package:book_ia/core/routes/routes.dart';
+
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/page/forgot%20password/forgot_password_screen.dart';
 import 'package:book_ia/features/auth/presentation/page/login/login_screen.dart';
@@ -39,18 +41,24 @@ class AppRouter {
       GoRoute(
         path: Routes.login,
         builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => getIt<AuthCubit>(),
           child: const LoginScreen(),
         ),
       ),
       GoRoute(
         path: Routes.register,
         builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => getIt<AuthCubit>(),
           child: const RegisterScreen(),
         ),
       ),
-      GoRoute(path: Routes.otp, builder: (context, state) => const OtpScreen()),
+      GoRoute(
+        path: Routes.otp,
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: const OtpScreen(),
+        ),
+      ),
       GoRoute(
         path: Routes.main,
         builder: (context, state) {
@@ -60,15 +68,24 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.nawPassword,
-        builder: (context, state) => const NewPasswordScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: const NewPasswordScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.passwordChaged,
-        builder: (context, state) => const PasswordChangedScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: const PasswordChangedScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.forgot,
-        builder: (context, state) => const ForgotPasswordScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
+          child: const ForgotPasswordScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.detalis,

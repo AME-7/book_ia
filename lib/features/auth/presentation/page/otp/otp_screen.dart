@@ -8,6 +8,7 @@ import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/dialogs.dart';
 import 'package:book_ia/core/widget/main_button.dart';
+
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -20,44 +21,41 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: GestureDetector(
-            onTap: () {
-              pop(context);
-            },
-            child: CustomSvgPicture(path: AppImages.backSvg),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: GestureDetector(
+          onTap: () {
+            pop(context);
+          },
+          child: CustomSvgPicture(path: AppImages.backSvg),
         ),
+      ),
 
-        body: _otpBody(),
+      body: _otpBody(),
 
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Didn\'t receive code?', style: AppTextStyle.captoin1),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Didn\'t receive code?', style: AppTextStyle.captoin1),
 
-              const Gap(10),
+            const Gap(10),
 
-              GestureDetector(
-                onTap: () {
-                  context.read()<AuthCubit>().resendCode;
-                },
-                child: Text(
-                  'Resend',
-                  style: AppTextStyle.captoin1.copyWith(
-                    color: AppColors.primaryColor,
-                  ),
+            GestureDetector(
+              onTap: () {
+                context.read()<AuthCubit>().resendCode;
+              },
+              child: Text(
+                'Resend',
+                style: AppTextStyle.captoin1.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -10,6 +10,13 @@ import 'package:book_ia/core/widget/custom_svg_picture.dart';
 import 'package:book_ia/core/widget/dialogs.dart';
 import 'package:book_ia/core/widget/main_button.dart';
 import 'package:book_ia/core/widget/password_text_form_field.dart';
+import 'package:book_ia/features/auth/data/data_source/auth_remote_data_source_impl.dart';
+import 'package:book_ia/features/auth/data/repo/auth_repo_impl.dart';
+import 'package:book_ia/features/auth/domain/usecases/forget_password_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/login_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/new_password_usecases.dart';
+import 'package:book_ia/features/auth/domain/usecases/register_usecuses.dart';
+import 'package:book_ia/features/auth/domain/usecases/verif_otp_usecases.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:book_ia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +29,23 @@ class NewPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthCubit(
+        loginUseCase: LoginUsecases(
+          AuthRepositoryImpl(AuthRemoteDataSourceImpl()),
+        ),
+        registerUsecuses: RegisterUsecuses(
+          AuthRepositoryImpl(AuthRemoteDataSourceImpl()),
+        ),
+        forgetPasswordUsecases: ForgetPasswordUsecases(
+          AuthRepositoryImpl(AuthRemoteDataSourceImpl()),
+        ),
+        verifOtpUsecases: VerifOtpUsecases(
+          (AuthRepositoryImpl(AuthRemoteDataSourceImpl())),
+        ),
+        newPasswordUsecases: NewPasswordUsecases(
+          (AuthRepositoryImpl(AuthRemoteDataSourceImpl())),
+        ),
+      ),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,

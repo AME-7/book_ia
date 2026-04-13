@@ -2,8 +2,11 @@ abstract class Apis {
   static const baseUrl = 'https://codingarabic.online/api';
   // auth
   static const login = '/login';
+  static const logout = '/logout';
   static const register = '/register';
   static const forgotPassword = '/forget-password';
+  static const newPassword = '/reset-password';
+  static const verifyEmail = '/verify-email';
   static const checkForgetPassword = '/check-forget-password';
   // home
   static const sliders = '/sliders';
