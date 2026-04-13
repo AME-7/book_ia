@@ -10,7 +10,6 @@ import 'package:book_ia/features/auth/presentation/page/password_changed/passwor
 import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/detalis/presentation/page/detalis_screen.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
-import 'package:book_ia/features/home/data/repository/home_repo.dart';
 import 'package:book_ia/features/home/presentation/search/presentation/page/search_screen.dart';
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
@@ -106,7 +105,7 @@ class AppRouter {
 
       GoRoute(
         path: Routes.search,
-        builder: (context, state) => SearchScreen(repo: HomeRepo()),
+        builder: (context, state) => SearchScreen(repo: ),
       ),
       GoRoute(
         path: Routes.editProfile,

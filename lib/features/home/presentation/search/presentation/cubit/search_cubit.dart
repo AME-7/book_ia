@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:book_ia/features/home/data/repository/home_repo.dart';
+import 'package:book_ia/features/home/domain/repository/home_repo.dart';
 import 'package:book_ia/features/home/presentation/search/presentation/cubit/search_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final HomeRepo repo;
+  final HomeRepository repo;
 
   SearchCubit(this.repo) : super(SearchInitial());
 

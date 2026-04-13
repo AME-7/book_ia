@@ -14,6 +14,8 @@ import 'package:book_ia/features/home/data/repo/home_repo_impl.dart';
 import 'package:book_ia/features/home/domain/repository/home_repo.dart';
 import 'package:book_ia/features/home/domain/usecases/get_best_sellers_usecase.dart';
 import 'package:book_ia/features/home/domain/usecases/get_sliders_usecase.dart';
+import 'package:book_ia/features/home/presentation/cubit/home_cubit.dart';
+import 'package:book_ia/features/home/presentation/search/presentation/cubit/search_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;
@@ -66,10 +68,7 @@ setupServiceLocator() {
       newPasswordUsecases: getIt(),
     ),
   );
-  getIt.registerLazySingleton<GetSlidersUseCase>(
-    () => GetSlidersUseCase(getIt()),
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt())
   );
-  getIt.registerLazySingleton<GetBestSellersUseCase>(
-    () => GetBestSellersUseCase(getIt()),
-  );
+  getIt.registerFactory<SearchCubit>()
 }

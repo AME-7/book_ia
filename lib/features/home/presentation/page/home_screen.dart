@@ -1,9 +1,9 @@
 import 'package:book_ia/core/constants/app_images.dart';
+import 'package:book_ia/core/di/service_locator.dart';
 import 'package:book_ia/core/functions/extension.dart';
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/widget/custom_svg_picture.dart';
-import 'package:book_ia/features/home/data/repository/home_repo.dart';
 import 'package:book_ia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:book_ia/features/home/presentation/widget/best_seller_books.dart';
 import 'package:book_ia/features/home/presentation/widget/home_slider.dart';
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(HomeRepo())..initLoadData(),
+      create: (context) => HomeCubit(getIt)..initLoadData(),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
