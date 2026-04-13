@@ -1,11 +1,11 @@
 import 'slider.dart';
 
-class Data {
+class SliderResponse {
   List<Slider>? sliders;
 
-  Data({this.sliders});
+  SliderResponse({this.sliders});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory SliderResponse.fromJson(Map<String, dynamic> json) => SliderResponse(
     sliders: (json['sliders'] as List<dynamic>?)
         ?.map((e) => Slider.fromJson(e as Map<String, dynamic>))
         .toList(),
