@@ -10,7 +10,8 @@ import 'package:book_ia/features/auth/presentation/page/password_changed/passwor
 import 'package:book_ia/features/auth/presentation/page/register/register_screen.dart';
 import 'package:book_ia/features/detalis/presentation/page/detalis_screen.dart';
 import 'package:book_ia/features/home/data/models/best_seller_book_response/product.dart';
-import 'package:book_ia/features/home/presentation/search/presentation/page/search_screen.dart';
+import 'package:book_ia/features/home/presentation/search/presentation/cubit/search_cubit.dart';
+import 'package:book_ia/features/home/presentation/search/presentation/widgets/search_view.dart';
 import 'package:book_ia/features/intro/splash/splash_screen.dart';
 import 'package:book_ia/features/intro/welcom/welcome_screen.dart';
 import 'package:book_ia/features/main/main_app_screen.dart';
@@ -105,7 +106,10 @@ class AppRouter {
 
       GoRoute(
         path: Routes.search,
-        builder: (context, state) => SearchScreen(repo: ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => getIt<SearchCubit>(),
+          child: const SearchView(),
+        ),
       ),
       GoRoute(
         path: Routes.editProfile,

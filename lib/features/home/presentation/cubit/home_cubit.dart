@@ -41,12 +41,12 @@ class HomeCubit extends Cubit<HomeState> {
     });
 
     if (state is! HomeErrorState) {
-      emit(HomeSuccessState());
+      emit(HomeSuccessState(products));
     }
   }
 
   void onChangeSlider(int index) {
     yourActiveIndex = index;
-    emit(HomeSuccessState());
+    emit(HomeSuccessState(products));
   }
 }

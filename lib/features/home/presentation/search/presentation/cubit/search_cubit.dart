@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'package:book_ia/features/home/domain/repository/home_repo.dart';
+import 'package:book_ia/features/home/domain/usecases/search_book_usecases.dart';
 import 'package:book_ia/features/home/presentation/search/presentation/cubit/search_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final HomeRepository repo;
-
-  SearchCubit(this.repo) : super(SearchInitial());
+  final SearchBookUsecases searchBookUsecases;
+  SearchCubit(this.searchBookUsecases) : super(SearchInitial());
 
   Timer? _debounce;
 
@@ -20,13 +19,11 @@ class SearchCubit extends Cubit<SearchState> {
       }
 
       emit(SearchLoading());
-
-      try {
-        final result = await repo.searchBooks(query);
-        emit(SearchSuccess(result));
-      } catch (e) {
-        emit(SearchError(e.toString()));
-      }
+      final result = await searchBookUsecases(query);
+      result.fold(
+        (l) => emit(SearchError(l.message)),
+        (r) => emit(SearchSuccess(r)),
+      );
     });
   }
 }
