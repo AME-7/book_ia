@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
-import 'package:book_ia/core/routes/routes.dart';
 import 'package:book_ia/core/styles/colors.dart';
 import 'package:book_ia/core/styles/text_style.dart';
 import 'package:book_ia/core/utils/validators.dart';
@@ -63,6 +62,8 @@ class NewPasswordScreen extends StatelessWidget {
   }
 
   Widget _newPasswordBody() {
+    final formKey = GlobalKey<FormState>();
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
@@ -81,7 +82,7 @@ class NewPasswordScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(22.0),
             child: Form(
-              key: cubit.formKey,
+              key: formKey,
               child: Column(
                 children: [
                   Text('Create new password', style: AppTextStyle.headline),
@@ -116,8 +117,8 @@ class NewPasswordScreen extends StatelessWidget {
                   MainButton(
                     text: 'Reset Password',
                     onPressed: () {
-                      if (cubit.formKey.currentState!.validate()) {
-                        pushTo(context, Routes.passwordChaged);
+                      if (formKey.currentState!.validate()) {
+                        cubit.newPassword();
                       }
                     },
                   ),

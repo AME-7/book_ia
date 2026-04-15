@@ -1,3 +1,4 @@
+import 'package:book_ia/core/di/service_locator.dart';
 import 'package:book_ia/core/services/dio/dio_provider.dart';
 import 'package:book_ia/core/services/local/shared_pref.dart';
 import 'package:book_ia/features/cart/presentation/cubit/cart_cubit.dart';
@@ -13,14 +14,14 @@ void main() async {
   DioProvider.init();
   await SharedPref.init();
 
+  setupServiceLocator(); // 🔥🔥🔥 ده أهم سطر
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => WishlistCubit()..getWishlist()),
-        BlocProvider(create: (_) => CartCubit()),
-        BlocProvider(create: (context) => CartCubit()..getCart()),
+        BlocProvider(create: (_) => CartCubit()..getCart()),
       ],
-
       child: EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
         path: 'assets/translations',
@@ -30,3 +31,27 @@ void main() async {
     ),
   );
 }
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await EasyLocalization.ensureInitialized();
+//   DioProvider.init();
+//   await SharedPref.init();
+
+//   runApp(
+//     MultiBlocProvider(
+//       providers: [
+//         BlocProvider(create: (_) => WishlistCubit()..getWishlist()),
+//         BlocProvider(create: (_) => CartCubit()),
+//         BlocProvider(create: (context) => CartCubit()..getCart()),
+//       ],
+
+//       child: EasyLocalization(
+//         supportedLocales: [Locale('en'), Locale('ar')],
+//         path: 'assets/translations',
+//         fallbackLocale: Locale('en'),
+//         child: const MainApp(),
+//       ),
+//     ),
+//   );
+// }

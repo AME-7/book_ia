@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:book_ia/core/constants/app_images.dart';
 import 'package:book_ia/core/functions/navigations.dart';
 import 'package:book_ia/core/routes/routes.dart';
@@ -62,6 +60,8 @@ class OtpScreen extends StatelessWidget {
   }
 
   Widget _otpBody() {
+    final formKey = GlobalKey<FormState>(); // ✅ أضف ده
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLodingState) {
@@ -69,7 +69,6 @@ class OtpScreen extends StatelessWidget {
         } else if (state is AuthSuccessState) {
           Navigator.of(context).maybePop();
           pushTo(context, Routes.nawPassword);
-          log('success');
         } else if (state is AuthErrorState) {
           Navigator.of(context).maybePop();
           showMyDialog(context, state.message);
@@ -81,44 +80,37 @@ class OtpScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(22.0),
             child: Form(
-              key: cubit.formKey,
+              key: formKey, // ✅ بدل cubit.formKey
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('OTP Verification', style: AppTextStyle.headline),
-
-                  Gap(15),
+                  const Gap(15),
                   Text(
                     'Enter the verification code we just sent on your email address.',
                     style: AppTextStyle.body.copyWith(
                       color: AppColors.greyColor,
                     ),
                   ),
-
                   const Gap(32),
                   Align(
                     alignment: Alignment.center,
                     child: Pinput(
                       length: 6,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       onChanged: (value) {
                         cubit.otp = value;
                       },
                       onCompleted: (pin) {
                         cubit.otp = pin;
-                        debugPrint('OTP Completed $pin');
                       },
                     ),
                   ),
-
                   const Gap(30),
-
                   MainButton(
                     text: 'Verify',
                     onPressed: () {
                       if (cubit.otp.length == 6) {
-                        cubit.verifyOtp();
-                        pushTo(context, Routes.nawPassword);
+                        cubit.verifyOtp(); // ✅ بس كدا
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Enter valid OTP")),
@@ -126,7 +118,6 @@ class OtpScreen extends StatelessWidget {
                       }
                     },
                   ),
-
                   const Gap(35),
                 ],
               ),

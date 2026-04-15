@@ -58,6 +58,8 @@ class RegisterScreen extends StatelessWidget {
   }
 
   Widget _registerBody(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     var cubit = context.read<AuthCubit>();
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
@@ -74,7 +76,7 @@ class RegisterScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(22.0),
           child: Form(
-            key: cubit.formKey,
+            key: formKey,
             child: Column(
               children: [
                 Text(
@@ -124,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                 MainButton(
                   text: 'Register',
                   onPressed: () {
-                    if (cubit.formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       cubit.register();
                     }
                   },

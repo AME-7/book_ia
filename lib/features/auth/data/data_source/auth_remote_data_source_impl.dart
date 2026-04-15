@@ -74,7 +74,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   ) async {
     var response = await DioProvider.postApi(
       endpoint: Apis.checkForgetPassword,
-      data: {email, otp},
+      data: {"email": email, "otp": otp},
     );
     return response.fold(
       (l) {

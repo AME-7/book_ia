@@ -8,6 +8,6 @@ class ForgetPasswordUsecases {
   final AuthRepository authRepository;
   ForgetPasswordUsecases(this.authRepository);
   Future<Either<Failure, AuthResponse>> call(AuthParams params) {
-    return authRepository.forgetPassword("email");
+    return authRepository.forgetPassword(params.email!);
   }
 }

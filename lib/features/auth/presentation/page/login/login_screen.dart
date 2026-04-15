@@ -27,22 +27,17 @@ class LoginScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: GestureDetector(
           onTap: () => pop(context),
-
           child: CustomSvgPicture(path: AppImages.backSvg),
         ),
       ),
-
       body: _loginBody(context),
-
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Don\'t have an account?', style: AppTextStyle.captoin1),
-
             const Gap(10),
-
             GestureDetector(
               onTap: () {
                 pushTo(context, Routes.register);
@@ -62,6 +57,9 @@ class LoginScreen extends StatelessWidget {
 
   Widget _loginBody(BuildContext context) {
     var cubit = context.read<AuthCubit>();
+
+    final formKey = GlobalKey<FormState>();
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
@@ -76,35 +74,28 @@ class LoginScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(22.0),
-
           child: Form(
-            key: cubit.formKey,
+            key: formKey,
             child: Column(
               children: [
                 Text(
                   'Welcome back! Glad to see you again!',
                   style: AppTextStyle.headline,
                 ),
-
                 const Gap(32),
-
                 CustomTextFormField(
                   controller: cubit.emailController,
                   hintText: 'Enter your email',
                   keybordType: TextInputType.emailAddress,
                   validator: AppValidator.email,
                 ),
-
                 const Gap(15),
-
                 PasswordTextFormField(
                   controller: cubit.passwordController,
                   hintText: 'Enter your password',
                   validator: null,
                 ),
-
                 const Gap(15),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -121,20 +112,17 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 const Gap(30),
-
                 MainButton(
                   text: 'Login',
                   onPressed: () {
-                    if (cubit.formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
+                      // ✅ هنا كمان
                       cubit.login();
                     }
                   },
                 ),
-
                 const Gap(35),
-
                 const SocialLoginButton(),
               ],
             ),

@@ -60,6 +60,8 @@ class ForgotPasswordScreen extends StatelessWidget {
   }
 
   Widget _forgotPasswordBody() {
+    final formKey = GlobalKey<FormState>();
+
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
@@ -76,42 +78,35 @@ class ForgotPasswordScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(22.0),
-
             child: Form(
-              key: cubit.formKey,
+              key: formKey, // ✅ بدل cubit.formKey
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Forgot Password?', style: AppTextStyle.headline),
-
-                  Gap(15),
+                  const Gap(15),
                   Text(
                     'Don\'t worry! It occurs. Please enter the email address linked with your account.',
                     style: AppTextStyle.body.copyWith(
                       color: AppColors.greyColor,
                     ),
                   ),
-
                   const Gap(32),
-
                   CustomTextFormField(
                     controller: cubit.emailController,
                     hintText: 'Enter your email',
                     keybordType: TextInputType.emailAddress,
                     validator: AppValidator.email,
                   ),
-
                   const Gap(30),
-
                   MainButton(
                     text: 'Send Code',
                     onPressed: () {
-                      if (cubit.formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         cubit.forgot();
                       }
                     },
                   ),
-
                   const Gap(35),
                 ],
               ),

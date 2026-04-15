@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 class VerifOtpUsecases {
   final AuthRepository authRepository;
   VerifOtpUsecases(this.authRepository);
-  Future<Either<Failure, AuthResponse>> call() {
-    return authRepository.verifyOtp("email", "otp");
+  Future<Either<Failure, AuthResponse>> call(String email, String otp) {
+    return authRepository.verifyOtp(email, otp);
   }
 }
